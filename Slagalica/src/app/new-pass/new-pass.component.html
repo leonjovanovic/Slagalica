@@ -1,0 +1,25 @@
+<div style='margin-left: auto; margin-right: auto; width: 10em;'>
+    <form #forma="ngForm">
+      <table>
+        <tr>
+          <td style="white-space:nowrap;">
+            New password: &nbsp;
+          </td>
+          <td>
+            <mat-form-field>
+              <input matInput type='password' name='password' pattern="^(?=.{8,12}$)(?!.*(\S)\1{2})(?=.*[A-Z])(?=.*[a-z]{3})(?=.*\d)(?=.*[^a-zA-Z0-9])([a-zA-Z]\S*)$" ngModel required #password1="ngModel" [(ngModel)]="this.password">
+              <mat-error *ngIf="password1.invalid">Please enter valid password.</mat-error>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <br>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align: center">
+            <input  type='button' value="Change Password" (click)='newPass()'>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>

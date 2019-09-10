@@ -1,0 +1,35 @@
+
+<div style='margin-left: auto; margin-right: auto; width: 10em;'>
+  <form #forma="ngForm">
+    <table>
+      <tr>
+        <td>
+          Username:
+        </td>
+        <td>
+          <mat-form-field>
+            <input matInput type='text' name='username' ngModel required #username1="ngModel" [(ngModel)]="this.username">
+            <mat-error *ngIf="username1.invalid">Please enter username.</mat-error>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          JMBG:
+        </td>
+        <td>
+            <mat-form-field>
+              <input matInput type='text' name='jmbg' pattern="^(0[1-9]|[1-2][0-9]|31(?!(?:0[2469]|11))|30(?!02))(0[1-9]|1[0-2])([09][0-9]{2})([0-8][0-9]|9[0-6])([0-9]{3})(\d)$" ngModel required #jmbg1="ngModel" [(ngModel)]="this.jmbg">
+              <mat-error *ngIf="jmbg1.invalid">Please enter valid JMBG.</mat-error>
+            </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="text-align: center">
+          <input  type='button' value="Continue" (click)='continue()'>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>
+{{poruka}}

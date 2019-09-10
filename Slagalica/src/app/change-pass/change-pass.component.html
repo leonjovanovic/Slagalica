@@ -1,0 +1,59 @@
+
+<div style='margin-left: auto; margin-right: auto; width: 10em;'>
+    <form #forma="ngForm">
+      <table>
+        <tr>
+          <td style="white-space:nowrap;">
+            Username:
+          </td>
+          <td>
+            <mat-form-field>
+              <input matInput type='text' name='username' ngModel required #username1="ngModel" [(ngModel)]="this.username">
+              <mat-error *ngIf="username1.invalid">Please enter username.</mat-error>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap;">
+            Old password:
+          </td>
+          <td>
+              <mat-form-field>
+                <input matInput type='password' name='old_password' required [(ngModel)]="this.old_password">
+              </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap;">
+            New password:
+          </td>
+          <td>
+              <mat-form-field>
+                <input matInput type='password' name='new_password1' pattern="^(?=.{8,12}$)(?!.*(\S)\1{2})(?=.*[A-Z])(?=.*[a-z]{3})(?=.*\d)(?=.*[^a-zA-Z0-9])([a-zA-Z]\S*)$" ngModel required #new_password11="ngModel" [(ngModel)]="this.new_password1">
+                <mat-error *ngIf="new_password11.invalid">Please enter valid password.</mat-error>
+              </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap;">
+            Confirm new password: &nbsp;
+          </td>
+          <td>
+              <mat-form-field>
+                <input matInput type='password' name='new_password2' pattern="^(?=.{8,12}$)(?!.*(\S)\1{2})(?=.*[A-Z])(?=.*[a-z]{3})(?=.*\d)(?=.*[^a-zA-Z0-9])([a-zA-Z]\S*)$" ngModel required #new_password21="ngModel" [(ngModel)]="this.new_password2">
+                <mat-error *ngIf="new_password21.invalid">Please enter valid password.</mat-error>
+              </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <br>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align: center">
+            <input  type='button' value="Change password" (click)='changePass()'>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+  {{poruka}}

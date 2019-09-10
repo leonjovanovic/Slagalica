@@ -1,0 +1,92 @@
+<div style='margin-left: auto; margin-right: auto; width: 10em;'>
+    <form #forma="ngForm">
+      <table>
+        <tr>
+          <td style="white-space:nowrap;">
+            Name:
+          </td>
+          <td>
+            <mat-form-field>
+              <input matInput type='text' name='name' ngModel required #name1="ngModel" [(ngModel)]="this.name">
+              <mat-error *ngIf="name1.invalid">Please enter name.</mat-error>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap;">
+            Surname:
+          </td>
+          <td>
+            <mat-form-field>
+              <input matInput type='text' name='surname' ngModel required #surname1="ngModel" [(ngModel)]="this.surname">
+              <mat-error *ngIf="surname1.invalid">Please enter surname.</mat-error>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap;">
+            Email:
+          </td>
+          <td>
+            <mat-form-field>
+              <input matInput type='text' name='email' ngModel required #email1="ngModel" [(ngModel)]="this.email">
+              <mat-error *ngIf="email1.invalid">Please enter email.</mat-error>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap;">
+            Occupation:
+          </td>
+          <td>
+            <mat-form-field>
+              <input matInput type='text' name='job' ngModel required #job1="ngModel" [(ngModel)]="this.job">
+              <mat-error *ngIf="job1.invalid">Please enter occupation.</mat-error>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap;">
+            Username:
+          </td>
+          <td>
+            <mat-form-field>
+              <input matInput type='text' name='username' ngModel required #username1="ngModel" [(ngModel)]="this.username">
+              <mat-error *ngIf="username1.invalid">Please enter username.</mat-error>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap;">
+            Password:
+          </td>
+          <td>
+              <mat-form-field>
+                <input matInput type='password' name='password1' pattern="^(?=.{8,12}$)(?!.*(\S)\1{2})(?=.*[A-Z])(?=.*[a-z]{3})(?=.*\d)(?=.*[^a-zA-Z0-9])([a-zA-Z]\S*)$" ngModel required #password1="ngModel" [(ngModel)]="this.password1">
+                <mat-error *ngIf="password1.invalid">Please enter valid password.</mat-error>
+              </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap;">
+            Confirm password: &nbsp;
+          </td>
+          <td>
+              <mat-form-field>
+                <input matInput type='password' name='password2' pattern="^(?=.{8,12}$)(?!.*(\S)\1{2})(?=.*[A-Z])(?=.*[a-z]{3})(?=.*\d)(?=.*[^a-zA-Z0-9])([a-zA-Z]\S*)$" ngModel required #password2="ngModel" [(ngModel)]="this.password2">
+                <mat-error *ngIf="password2.invalid">Please enter valid password.</mat-error>
+              </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <br>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align: center">
+            <input  type='button' value="Sign up" (click)='signUp()'>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+  {{poruka}}

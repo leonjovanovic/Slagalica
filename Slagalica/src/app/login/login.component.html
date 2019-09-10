@@ -1,0 +1,58 @@
+<div style='margin-left: auto; margin-right: auto; width: 10em;'>
+<form #forma="ngForm">
+  <table>
+    <tr>
+      <td>
+        Username:
+      </td>
+      <td>
+        <mat-form-field>
+          <input matInput type='text' name='ime' ngModel required #ime="ngModel" [(ngModel)]="this.username">
+          <mat-error *ngIf="ime.invalid">Please enter username.</mat-error>
+        </mat-form-field>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Password:
+      </td>
+      <td>
+          <mat-form-field>
+            <input matInput type='password' name='lozinka' ngModel required #lozinka="ngModel" [(ngModel)]="this.password">
+            <mat-error *ngIf="lozinka.invalid">Please enter password.</mat-error>
+          </mat-form-field>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" style="text-align: center">
+        <input type='button' value="Login" (click)='login()'>
+      </td>
+    </tr>
+    <tr>
+      <br>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <a href="/forgotPass">Forgot password?</a>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <a href="/signUp" >Dont have account? Sign Up!</a>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" style="text-align: center">
+        <input type='button' value="Change password" (click)='changePass()'>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" style="text-align: center">
+        <input type='button' value="Continue as guest" (click)='guest()'>
+      </td>
+    </tr>
+
+  </table>
+</form>
+</div>
+{{poruka}}
