@@ -62,8 +62,8 @@
           </td>
           <td>
               <mat-form-field>
-                <input matInput type='password' name='password1' pattern="^(?=.{8,12}$)(?!.*(\S)\1{2})(?=.*[A-Z])(?=.*[a-z]{3})(?=.*\d)(?=.*[^a-zA-Z0-9])([a-zA-Z]\S*)$" ngModel required #password1="ngModel" [(ngModel)]="this.password1">
-                <mat-error *ngIf="password1.invalid">Please enter valid password.</mat-error>
+                <input matInput type='password' name='password1' pattern="^(?=.{8,12}$)(?!.*(\S)\1{2})(?=.*[A-Z])(?=.*[a-z]{3})(?=.*\d)(?=.*[^a-zA-Z0-9])([a-zA-Z]\S*)$" ngModel required #password11="ngModel" [(ngModel)]="this.password1">
+                <mat-error *ngIf="password11.invalid">Please enter valid password.</mat-error>
               </mat-form-field>
           </td>
         </tr>
@@ -73,8 +73,8 @@
           </td>
           <td>
               <mat-form-field>
-                <input matInput type='password' name='password2' pattern="^(?=.{8,12}$)(?!.*(\S)\1{2})(?=.*[A-Z])(?=.*[a-z]{3})(?=.*\d)(?=.*[^a-zA-Z0-9])([a-zA-Z]\S*)$" ngModel required #password2="ngModel" [(ngModel)]="this.password2">
-                <mat-error *ngIf="password2.invalid">Please enter valid password.</mat-error>
+                <input matInput type='password' name='password2' pattern="^(?=.{8,12}$)(?!.*(\S)\1{2})(?=.*[A-Z])(?=.*[a-z]{3})(?=.*\d)(?=.*[^a-zA-Z0-9])([a-zA-Z]\S*)$" ngModel required #password21="ngModel" [(ngModel)]="this.password2">
+                <mat-error *ngIf="password21.invalid">Please enter valid password.</mat-error>
               </mat-form-field>
           </td>
         </tr>
@@ -82,11 +82,61 @@
           <br>
         </tr>
         <tr>
+          <td>
+            Pol:
+          </td>
+          <td>
+              <input type="radio" value="m" id="1" checked name="radio" [(ngModel)]="gender" required> Male &nbsp;
+              <input type="radio" value="z" id="2" name="radio" [(ngModel)]="gender" required> Female
+          </td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap;">
+            JMBG: &nbsp;
+          </td>
+          <td>
+              <mat-form-field>
+                <input matInput type='text' name='jmbg' pattern="^(0[1-9]|[1-2][0-9]|31(?!(?:0[2469]|11))|30(?!02))(0[1-9]|1[0-2])([09][0-9]{2})([0-8][0-9]|9[0-6])([0-9]{3})(\d)$" ngModel required #jmbg1="ngModel" [(ngModel)]="this.jmbg">
+                <mat-error *ngIf="jmbg1.invalid">Please enter valid JMBG.</mat-error>
+              </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap;">
+            Profile picture: &nbsp;
+          </td>
+          <td>
+            <input type="file" name="pic" accept="image/*" [(ngModel)]="this.poruka">
+          </td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap;">
+            Secret question: &nbsp;
+          </td>
+          <td>
+              <mat-form-field>
+                <input matInput type='text' name='question' ngModel required #question1="ngModel" [(ngModel)]="this.question">
+                <mat-error *ngIf="question1.invalid">Please enter valid question.</mat-error>
+              </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap;">
+            Answer: &nbsp;
+          </td>
+          <td>
+              <mat-form-field>
+                <input matInput type='text' name='answer' ngModel required #answer1="ngModel" [(ngModel)]="this.answer">
+                <mat-error *ngIf="answer1.invalid">Please enter valid answer.</mat-error>
+              </mat-form-field>
+          </td>
+        </tr>
+        <tr>
           <td colspan="2" style="text-align: center">
+            <p style="color: red"><i>{{same_password}}</i></p>
             <input  type='button' value="Sign up" (click)='signUp()'>
           </td>
         </tr>
       </table>
     </form>
   </div>
-  {{poruka}}

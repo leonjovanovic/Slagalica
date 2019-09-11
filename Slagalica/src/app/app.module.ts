@@ -9,6 +9,7 @@ import { MatInputModule,
   MatButtonModule,
   MatToolbarModule,
   MatExpansionModule } from '@angular/material';
+import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
@@ -37,7 +38,8 @@ import { NewPassComponent } from './new-pass/new-pass.component';
     MatCardModule,
     MatButtonModule,
     MatToolbarModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatRadioModule
   ],
   providers: [],
   bootstrap: [AppComponent]
