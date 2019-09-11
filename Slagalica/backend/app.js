@@ -19,30 +19,99 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post("/api/posts", (req, res, next) => {
-  const post = req.body;
-  console.log(post);
-  res.status(201).json({
-    message: 'Post added successfully'
+app.post("/login", (req, res, next) => {
+  /*this.users = JSON.parse(localStorage.getItem("users"));
+    for (let u of this.users) {
+      if (u.username === username && u.password === password) {
+        this.loginUpdated.next(true);
+        return;
+      }
+    }
+    this.loginUpdated.next(false);*/
+  const username = req.body.username;
+  const password = req.body.password;
+  console.log(username, password);
+  res.status(200).json({
+    flag : true
   });
 });
 
-app.get("/api/posts", (req, res, next) => {
-  const posts = [
-    {
-      id: "fadf12421l",
-      title: "First server-side post",
-      content: "This is coming from the server"
-    },
-    {
-      id: "ksajflaj132",
-      title: "Second server-side post",
-      content: "This is coming from the server!"
+app.post("/signUp", (req, res, next) => {
+  /*this.users = JSON.parse(localStorage.getItem("users"));
+  for (let u of this.users) {
+    if (u.username === user.username || u.email === user.email) {
+      this.usersUpdated.next(false);
+      return;
     }
-  ];
+  }
+  this.users.push(user);
+  localStorage.setItem("users", JSON.stringify(this.users));
+  this.usersUpdated.next(true);*/
+  //const user = req.body;
+  console.log(req.body);
   res.status(200).json({
-    message: "Posts fetched successfully!",
-    posts: posts
+    flag : true
+  });
+});
+app.post("/changePass", (req, res, next) => {
+  /*this.users = JSON.parse(localStorage.getItem("users"));
+    for (let u of this.users) {
+      if (u.username === username && u.password === password) {
+        u.password = new_pass;
+        localStorage.setItem("users", JSON.stringify(this.users));
+        this.changePassUpdated.next(true);
+        return;
+      }
+    }
+    this.changePassUpdated.next(false);*/
+  console.log(req.body);
+  res.status(200).json({
+    flag : true
+  });
+});
+
+app.post("/forgotPass", (req, res, next) => {
+  /*this.users = JSON.parse(localStorage.getItem("users"));
+    for (let u of this.users) {
+      if (u.username === username && u.jmbg === jmbg) {
+        this.forgotPassUpdated.next(true);
+        this.secretQueUser = u;
+        return;
+      }
+    }
+    this.forgotPassUpdated.next(false);*/
+  console.log(req.body);
+  res.status(200).json({
+    flag : true, question: "REPLACE WHEN GET FROM MONGODB", username: req.body.username
+  });
+});
+
+app.post("/secretQuestion", (req, res, next) => {
+  /*if(this.secretQueUser.answer === answer){
+    this.secretAnsUpdated.next(true);
+    return;
+  }
+  this.secretAnsUpdated.next(false);*/
+  console.log(req.body);
+  res.status(200).json({
+    flag : true
+  });
+});
+
+app.post("/newPass", (req, res, next) => {
+  /*this.users = JSON.parse(localStorage.getItem("users"));
+  for (let u of this.users) {
+    if (u.username === this.secretQueUser.username && u.password === this.secretQueUser.password) {
+      u.password = pass;
+      localStorage.setItem("users", JSON.stringify(this.users));
+      this.forgChangePassUpdated.next(true);
+      return;
+    }
+  }
+  this.forgChangePassUpdated.next(false);*/
+  console.log(req.body);
+  res.status(200).json({
+    flag : true
   });
 });
 

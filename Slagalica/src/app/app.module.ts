@@ -17,6 +17,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { ChangePassComponent } from './change-pass/change-pass.component';
 import { SecretQuestionComponent } from './secret-question/secret-question.component';
 import { NewPassComponent } from './new-pass/new-pass.component';
+import { HttpClientModule } from "@angular/common/http";
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { NewPassComponent } from './new-pass/new-pass.component';
     MatButtonModule,
     MatToolbarModule,
     MatExpansionModule,
-    MatRadioModule
+    MatRadioModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

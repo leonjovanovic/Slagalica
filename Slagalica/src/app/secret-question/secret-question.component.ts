@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { UserService } from '../app.service';
 
 @Component({
   selector: 'app-secret-question',
@@ -9,15 +11,30 @@ import { Router } from '@angular/router';
 export class SecretQuestionComponent implements OnInit {
   question: string;
   answer: string;
-  constructor(private router: Router) { }
+  poruka:string;
+
+  usersSub:Subscription;
+  constructor(private router:Router, public userService:UserService) {
+    this.usersSub = this.userService.getSecretQueUpdateListener()//cekamo dok nam ne posalje odgovor
+    .subscribe((question: string) => {
+      this.question = question;
+    });
+    this.userService.secretQuestion();
+  }
 
   ngOnInit() {
-    this.question = "What is your favourite colour?" //Preko servisa preneti iz Forgot Pass
+    this.usersSub = this.userService.getSecretAnswUpdateListener()//cekamo dok nam ne posalje odgovor
+    .subscribe((flag: boolean) => {
+      if (flag) {
+        this.router.navigate(['newPass']);
+      } else {
+        this.router.navigate(['']);
+      }
+    });
   }
 
   continue(){
-    if (this.answer === 'Red') {this.router.navigate(['newPass']); }
-    else {this.router.navigate(['']); }
+    this.userService.secretAnswer(this.answer);
   }
 
 }
