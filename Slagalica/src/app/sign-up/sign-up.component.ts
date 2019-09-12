@@ -25,8 +25,12 @@ export class SignUpComponent implements OnInit {
   same: boolean;
   same_password: string;
   flag: boolean;
+  imagePreview: string;
 
   private usersSub: Subscription;
+  width: number;
+  height: number;
+  file:File;
   constructor(private router: Router, public userService: UserService) { }
 
   ngOnInit() {
@@ -40,8 +44,22 @@ export class SignUpComponent implements OnInit {
     });
   }
 
+  picture(event: Event){
+    this.file = (event.target as HTMLInputElement).files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      var img = new Image();
+      img.onload = () => {
+        this.width = img.width;
+        this.height = img.height;
+       };
+      img.src = reader.result as string;
+      this.imagePreview = reader.result as string;
+    };
+    reader.readAsDataURL(this.file);
+  }
+
   signUp() {
-    this.poruka=this.userService.broj().toString();
     this.flag = true;
     this.same = true;
     if (this.password1 !== this.password2) {
@@ -58,6 +76,11 @@ export class SignUpComponent implements OnInit {
     if (!this.name || !this.surname || !this.email || !this.job || !this.username || !this.gender || !this.question || !this.answer) {
       this.flag = false;
     }
+
+    if (this.width > 300 || this.height > 300){
+      this.same_password = 'Maximum size of image is 300x300 px!';
+      this.flag = false;
+    }
     if (!this.flag) {return; }
 
     const user = new User();
@@ -65,7 +88,7 @@ export class SignUpComponent implements OnInit {
     user.username = this.username; user.password = this.password1; user.gender = this.gender;
     user.question = this.question; user.answer = this.answer; user.jmbg = this.jmbg; user.type = 'Takmicar';
 
-    this.userService.signUp(user);//saljemo user servisu
+    this.userService.signUp(user, this.file); //saljemo user servisu
     //this.usersSub.unsubscribe();
   }
 }

@@ -19,9 +19,22 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  signUp(user: User){//signUp komponenta prosledjuje napravljenog usera
+  signUp(user: User, image: File){//signUp komponenta prosledjuje napravljenog usera
+    const postData = new FormData();
+    postData.append("image", image, user.username);
+    postData.append("name", user.name);
+    postData.append("surname", user.surname);
+    postData.append("email", user.email);
+    postData.append("job", user.job);
+    postData.append("username", user.username);
+    postData.append("password", user.password);
+    postData.append("gender", user.gender);
+    postData.append("jmbg", user.jmbg);
+    postData.append("question", user.question);
+    postData.append("answer", user.answer);
+    console.log(postData);
     this.http
-    .post<{ flag: boolean }>('http://localhost:3000/signUp', user)
+    .post<{ flag: boolean }>('http://localhost:3000/signUp', postData)
     .subscribe(responseData => {
       this.usersUpdated.next(responseData.flag);
     });
@@ -89,10 +102,10 @@ export class UserService {
     return this.secretAnsUpdated.asObservable();
   }
 
-  forgChangePass(pass:string){
+  forgChangePass(password:string){
     const u = this.secretUsername;
     this.http
-    .post<{ flag: boolean }>('http://localhost:3000/newPass', {pass, u})
+    .post<{ flag: boolean }>('http://localhost:3000/newPass', {password, u})
     .subscribe(responseData => {
       this.forgChangePassUpdated.next(responseData.flag);
     });

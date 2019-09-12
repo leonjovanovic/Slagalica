@@ -10,11 +10,11 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./change-pass.component.css']
 })
 export class ChangePassComponent implements OnInit {
-  username:string;
-  old_password:string;
-  new_password1:string;
-  new_password2:string;
-  poruka:string;
+  username: string;
+  old_password: string;
+  new_password1: string;
+  new_password2: string;
+  poruka: string;
 
   usersSub:Subscription;
   constructor(private router:Router, public userService:UserService) { }
@@ -31,10 +31,14 @@ export class ChangePassComponent implements OnInit {
   }
 
   changePass(){
+
     if (this.new_password1 !== this.new_password2){
       this.poruka="New passwords dont match!";
       return;
     }
-    if(/^(?=.{8,12}$)(?!.*(\S)\1{2})(?=.*[A-Z])(?=.*[a-z]{3})(?=.*\d)(?=.*[^a-zA-Z0-9])([a-zA-Z]\S*)$/.test(this.new_password1)) this.userService.changePass(this.username, this.old_password, this.new_password1);
+    if(/^(?=.{8,12}$)(?!.*(\S)\1{2})(?=.*[A-Z])(?=.*[a-z]{3})(?=.*\d)(?=.*[^a-zA-Z0-9])([a-zA-Z]\S*)$/.test(this.new_password1))
+    {
+      this.userService.changePass(this.username, this.old_password, this.new_password1);
+    }
   }
 }

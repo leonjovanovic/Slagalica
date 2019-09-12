@@ -19,7 +19,6 @@ import { SecretQuestionComponent } from './secret-question/secret-question.compo
 import { NewPassComponent } from './new-pass/new-pass.component';
 import { HttpClientModule } from "@angular/common/http";
 
-
 @NgModule({
   declarations: [
     AppComponent,
