@@ -18,6 +18,10 @@ import { ChangePassComponent } from './change-pass/change-pass.component';
 import { SecretQuestionComponent } from './secret-question/secret-question.component';
 import { NewPassComponent } from './new-pass/new-pass.component';
 import { HttpClientModule } from "@angular/common/http";
+import { TakmicarComponent } from './takmicar/takmicar.component';
+import { AdministratorComponent } from './administrator/administrator.component';
+import { SupervizorComponent } from './supervizor/supervizor.component';
+import { GostComponent } from './gost/gost.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +31,11 @@ import { HttpClientModule } from "@angular/common/http";
     SignUpComponent,
     ChangePassComponent,
     SecretQuestionComponent,
-    NewPassComponent
+    NewPassComponent,
+    TakmicarComponent,
+    AdministratorComponent,
+    SupervizorComponent,
+    GostComponent
   ],
   imports: [
     BrowserModule,

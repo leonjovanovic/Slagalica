@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
     if (isValid) {
       error = null;
     }
-    cb(error, "backend/images");
+    cb(null, "backend/images");
   },
   filename: (req, file, cb) => {
     const name = file.originalname
@@ -27,10 +27,8 @@ const storage = multer.diskStorage({
     cb(null, name + "." + ext);
   }
 });
-
 const mongo = require('mongodb').MongoClient;
 const url = 'mongodb://localhost:27017';
-
 const app = express();
 
 app.use(bodyParser.json());
@@ -66,7 +64,8 @@ app.post("/login", (req, res, next) => {
     collection.findOne({$and:[{username: req.body.username}, {password: md5(req.body.password)}]}, (err, item) => {
       if(item != null){
         res.status(200).json({
-          flag : true
+          flag : true,
+          type : item.type
         });
       } else {
         res.status(200).json({
@@ -100,8 +99,11 @@ app.post("/signUp", multer({ storage: storage }).single("image"), (req, res, nex
     const collection = db.collection('users');
     collection.findOne({$or:[{username: req.body.username}, {email: req.body.email}, {jmbg: req.body.jmbg}]}, (err, item) => {
       if(item == null){
+        const collection = db.collection('requests');
         const url = req.protocol + "://" + req.get("host");
-        collection.insertOne({ name: req.body.name, surname: req.body.surname, email: req.body.email, job: req.body.job, username: req.body.username, password: md5(req.body.password), gender: req.body.gender, jmbg: req.body.jmbg, question: req.body.question, answer: req.body.answer, imagePath: url + "/images/" + req.file.filename }, (err, result) => {
+        let flag = false;
+        if(MIME_TYPE_MAP[req.file.mimetype]) flag = true;
+        collection.insertOne({ name: req.body.name, surname: req.body.surname, email: req.body.email, job: req.body.job, username: req.body.username, password: md5(req.body.password), gender: req.body.gender, jmbg: req.body.jmbg, question: req.body.question, answer: req.body.answer , type : req.body.type ,imagePath: (flag)? (url + "/images/" + req.file.filename):"None" }, (err, result) => {
           console.log(req.body);
           res.status(200).json({
             flag : true
@@ -292,6 +294,44 @@ app.post("/newPass", (req, res, next) => {
         client.close();
       }
     });
+  });
+});
+
+app.get("/players20", (req, res, next) => {
+  mongo.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, (err, client) => {
+    if (err) {
+      console.error(err)
+      res.status(200).json({
+        players20 : null
+      });
+      return
+    }
+    const db = client.db('database');
+    const collection = db.collection('games');
+    var d = new Date();
+    d.setDate(d.getDate()-20);
+    collection.find({datum: { $gte: d } }).toArray((function(err, items) {
+      if(items != null){
+        console.log(items);
+        res.status(200).json({
+          players20 : items
+        });
+      } else {
+        res.status(200).json({
+          players20 : null
+        });
+        client.close();
+      }
+      if(err){
+        res.status(200).json({
+          players20 : null
+        });
+        client.close();
+      }
+    }));
   });
 });
 

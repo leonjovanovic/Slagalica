@@ -1,0 +1,39 @@
+<div>
+  <table style="display: inline-block;">
+    <tr>
+      <td>
+        Player &nbsp;
+      </td>
+      <td>
+        Highscore (last 20 days) &nbsp;
+      </td>
+    </tr>
+    <tr *ngFor="let player of players20">
+      <td>
+        {{player.username}}
+      </td>
+      <td>
+        {{player.points}}
+      </td>
+    </tr>
+  </table>
+
+  <table style="display: inline-block;">
+    <tr>
+      <td>
+        Player &nbsp;
+      </td>
+      <td>
+        Highscore (this month) &nbsp;
+      </td>
+    </tr>
+    <tr *ngFor="let player of players1">
+      <td>
+        {{player.username}}
+      </td>
+      <td>
+        {{player.points}}
+      </td>
+    </tr>
+  </table>
+</div>

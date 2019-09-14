@@ -30,7 +30,7 @@ export class SignUpComponent implements OnInit {
   private usersSub: Subscription;
   width: number;
   height: number;
-  file:File;
+  file: File;
   constructor(private router: Router, public userService: UserService) { }
 
   ngOnInit() {
@@ -46,6 +46,7 @@ export class SignUpComponent implements OnInit {
 
   picture(event: Event){
     this.file = (event.target as HTMLInputElement).files[0];
+    this.poruka = this.file.name;
     const reader = new FileReader();
     reader.onload = () => {
       var img = new Image();
@@ -88,6 +89,8 @@ export class SignUpComponent implements OnInit {
     user.username = this.username; user.password = this.password1; user.gender = this.gender;
     user.question = this.question; user.answer = this.answer; user.jmbg = this.jmbg; user.type = 'Takmicar';
 
+
+    if (this.file == null){this.file = new File(new Array<Blob>(), "dummy.png"); }
     this.userService.signUp(user, this.file); //saljemo user servisu
     //this.usersSub.unsubscribe();
   }

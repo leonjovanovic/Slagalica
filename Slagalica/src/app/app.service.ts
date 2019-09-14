@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-
 import { User } from './user';
 
 @Injectable({providedIn: 'root'})
 export class UserService {
   private users: User[] = [];
   private usersUpdated = new Subject<boolean>();
-  private loginUpdated = new Subject<boolean>();
+  private loginUpdated = new Subject<{flag: boolean, type: string}>();
   private changePassUpdated = new Subject<boolean>();
   private forgotPassUpdated = new Subject<boolean>();
   private secretQueUpdated = new Subject<string>();
@@ -21,7 +20,8 @@ export class UserService {
 
   signUp(user: User, image: File){//signUp komponenta prosledjuje napravljenog usera
     const postData = new FormData();
-    postData.append("image", image, user.username);
+    if(image.name!="dummy.png")postData.append("image", image, user.username);
+    else postData.append("image", image, "empty");
     postData.append("name", user.name);
     postData.append("surname", user.surname);
     postData.append("email", user.email);
@@ -32,7 +32,7 @@ export class UserService {
     postData.append("jmbg", user.jmbg);
     postData.append("question", user.question);
     postData.append("answer", user.answer);
-    console.log(postData);
+    postData.append("type", user.type);
     this.http
     .post<{ flag: boolean }>('http://localhost:3000/signUp', postData)
     .subscribe(responseData => {
@@ -46,9 +46,9 @@ export class UserService {
 
   login(username: string, password: string){
     this.http
-      .post<{ flag: boolean }>('http://localhost:3000/login', {username, password})
+      .post<{ flag: boolean, type: string }>('http://localhost:3000/login', {username, password})
       .subscribe(responseData => {
-        this.loginUpdated.next(responseData.flag);
+        this.loginUpdated.next({flag: responseData.flag, type: responseData.type});
       });
   }
 

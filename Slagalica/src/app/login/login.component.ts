@@ -18,17 +18,15 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.usersSub = this.userService.getLoginUpdateListener()//cekamo dok nam ne posalje odgovor
-    .subscribe((flag: boolean) => {
-      if (flag) {
-        this.router.navigate(['signUp']);
-      } else {
+    .subscribe(({flag, type}) => {
+      if (flag) { this.router.navigate([type.toLowerCase()]); }
+      else {
         this.poruka = 'Username or password is not correct!';
       }
     });
   }
 
   login() {
-    //this.router.navigate(['']); // CHANGE TO GAME
     this.userService.login(this.username, this.password);
   }
 
@@ -37,7 +35,7 @@ export class LoginComponent implements OnInit {
   }
 
   guest(){
-    this.router.navigate(['']); // CHANGE TO Guest
+    this.router.navigate(['gost']);
   }
 
 }
