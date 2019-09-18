@@ -22,6 +22,12 @@ import { TakmicarComponent } from './takmicar/takmicar.component';
 import { AdministratorComponent } from './administrator/administrator.component';
 import { SupervizorComponent } from './supervizor/supervizor.component';
 import { GostComponent } from './gost/gost.component';
+import { CreateAnagramComponent } from './create-anagram/create-anagram.component';
+import { CreateGeographyComponent } from './create-geography/create-geography.component';
+import { DailyResultsComponent } from './daily-results/daily-results.component';
+import { AnagramComponent } from './anagram/anagram.component';
+import { GeografijaComponent } from './geografija/geografija.component';
+import { MojBrojComponent } from './moj-broj/moj-broj.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +41,13 @@ import { GostComponent } from './gost/gost.component';
     TakmicarComponent,
     AdministratorComponent,
     SupervizorComponent,
-    GostComponent
+    GostComponent,
+    CreateAnagramComponent,
+    CreateGeographyComponent,
+    DailyResultsComponent,
+    AnagramComponent,
+    GeografijaComponent,
+    MojBrojComponent
   ],
   imports: [
     BrowserModule,

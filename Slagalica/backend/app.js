@@ -30,6 +30,7 @@ const storage = multer.diskStorage({
 const mongo = require('mongodb').MongoClient;
 const url = 'mongodb://localhost:27017';
 const app = express();
+let anagramID = 0;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -63,6 +64,7 @@ app.post("/login", (req, res, next) => {
     const collection = db.collection('users');
     collection.findOne({$and:[{username: req.body.username}, {password: md5(req.body.password)}]}, (err, item) => {
       if(item != null){
+        //console.log(item.type);
         res.status(200).json({
           flag : true,
           type : item.type
@@ -315,7 +317,7 @@ app.get("/players20", (req, res, next) => {
     d.setDate(d.getDate()-20);
     collection.find({datum: { $gte: d } }).toArray((function(err, items) {
       if(items != null){
-        console.log(items);
+        //console.log(items);
         res.status(200).json({
           players20 : items
         });
@@ -332,6 +334,162 @@ app.get("/players20", (req, res, next) => {
         client.close();
       }
     }));
+  });
+});
+
+app.get("/players10", (req, res, next) => {
+  mongo.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, (err, client) => {
+    if (err) {
+      console.error(err)
+      res.status(200).json({
+        players10 : null
+      });
+      return
+    }
+    const db = client.db('database');
+    const collection = db.collection('games');
+    var zero = new Date();
+    var twelve = new Date();
+    zero.setHours(0); zero.setMinutes(0); zero.setSeconds(0);
+    twelve.setDate(twelve.getDate()+1); twelve.setHours(0); twelve.setMinutes(0); twelve.setSeconds(0);
+    collection.find({"datum" : {"$gte": zero,"$lt": twelve}}).toArray((function(err, items) {
+      if(items != null){
+        //console.log(items);
+        res.status(200).json({
+          players10 : items
+        });
+      } else {
+        res.status(200).json({
+          players10 : null
+        });
+        client.close();
+      }
+      if(err){
+        res.status(200).json({
+          players10 : null
+        });
+        client.close();
+      }
+    }));
+  });
+});
+
+app.get("/players1", (req, res, next) => {
+  mongo.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, (err, client) => {
+    if (err) {
+      console.error(err)
+      res.status(200).json({
+        players1 : null
+      });
+      return
+    }
+    const db = client.db('database');
+    const collection = db.collection('games');
+    var d = new Date();
+
+    d.setDate(1);
+    collection.find({datum: { $gte: d } }).toArray((function(err, items) {
+      if(items != null){
+        console.log(items);
+        res.status(200).json({
+          players1 : items
+        });
+      } else {
+        res.status(200).json({
+          players1 : null
+        });
+        client.close();
+      }
+      if(err){
+        res.status(200).json({
+          players1 : null
+        });
+        client.close();
+      }
+    }));
+  });
+});
+
+app.post("/putAnagram", (req, res, next) => {
+  mongo.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, (err, client) => {
+    if (err) {
+      console.error(err)
+      res.status(200).json({
+        flag : false
+      });
+      return
+    }
+    const db = client.db('database');
+    const collection = db.collection('anagrams');
+    collection.insertOne({ id: anagramID, anagram: req.body.anagram, recenica: req.body.recenica }, (err, result) => {
+      if(result != null){
+        anagramID++;
+        res.status(200).json({
+          flag : true
+        });
+      } else {
+        res.status(200).json({
+          flag : false
+        });
+        client.close();
+      }
+      if(err){
+        res.status(200).json({
+          flag : false
+        });
+        client.close();
+      }
+    });
+  });
+});
+
+app.get("/playGame", (req, res, next) => {
+  mongo.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, (err, client) => {
+    if (err) {
+      console.error(err)
+      res.status(200).json({
+        players20 : null
+      });
+      return
+    }
+    const db = client.db('database');
+    const collection = db.collection('calendar');
+    var zero = new Date();
+    var twelve = new Date();
+    zero.setHours(0); zero.setMinutes(0); zero.setSeconds(0);
+    twelve.setDate(twelve.getDate()+1); twelve.setHours(0); twelve.setMinutes(0); twelve.setSeconds(0);
+    collection.findOne({"datum" : {"$gte": zero,"$lt": twelve}}, (err, item) => {
+      if(item != null){
+        res.status(200).json({
+          flag : true,
+          game : item.name
+        });
+        client.close();
+      } else {
+        res.status(200).json({
+          flag : false
+        });
+        client.close();
+      }
+      if(err){
+        res.status(200).json({
+          flag : false
+        });
+        client.close();
+      }
+    });
   });
 });
 

@@ -1,0 +1,71 @@
+<div style='margin-left: auto; margin-right: auto; width: 10em;'>
+  <table>
+    <tr>
+      <td>
+        Rank
+      </td>
+      <td>
+        &nbsp;&nbsp;
+      </td>
+      <td>
+        Player
+      </td>
+      <td>
+        &nbsp;&nbsp;
+      </td>
+      <td  style="white-space:nowrap;">
+        Highscore (today)
+      </td>
+    </tr>
+    <tr *ngFor="let player of players10">
+      <td>{{num}}{{inc()}}</td>
+      <td>
+        &nbsp;&nbsp;
+      </td>
+      <td>
+        {{player.username}}
+      </td>
+      <td>
+        &nbsp;&nbsp;
+      </td>
+      <td>
+        {{player.points}}
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="5">--------------------------</td>
+    </tr>
+
+    <tr>
+      <td>{{rank}}</td>
+      <td>
+        &nbsp;&nbsp;
+      </td>
+      <td>
+        {{username}}
+      </td>
+      <td>
+        &nbsp;&nbsp;
+      </td>
+      <td>
+        {{points}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <br>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="5">
+        <input type='button' value="Go back" (click)='back()'>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="5">
+          <input type='button' value="Logout" (click)='logout()'>
+      </td>
+    </tr>
+  </table>
+</div>

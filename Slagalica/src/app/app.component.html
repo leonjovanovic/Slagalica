@@ -1,1 +1,28 @@
+<script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous">
+</script>
+<script>
+  $(function(){
+    $("#header").load("header.html");
+    $("#footer").load("footer.html");
+  });
+</script>
+<div id="header" style="background-color: rgb(250, 207, 127)">
+    <br>
+    <h1 style='margin-left: auto; margin-right: auto; width: 2em; white-space:nowrap; color: white'>Slagalica</h1>
+    <br>
+    <br>
+</div>
+  <br>
+  <br>
 <router-outlet></router-outlet>
+<br>
+<br>
+<div id="footer" style="background-color: rgb(250, 207, 127)">
+  <br>
+  <div style='margin-left: auto; margin-right: auto; width: 7em; white-space:nowrap; color: white'>Leon Jovanovic 0377/2015</div>
+  <br>
+  <br>
+</div>

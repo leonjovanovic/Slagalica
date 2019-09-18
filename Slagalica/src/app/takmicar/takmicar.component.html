@@ -1,3 +1,23 @@
-<p>
-  takmicar works!
-</p>
+<div style='margin-left: auto; margin-right: auto; width: 10em;'>
+    <form #forma="ngForm">
+      <table>
+        <tr>
+          <td colspan="2" style="text-align: center">
+            <input type='button' value="Igraj igru dana" (click)='playGame()'>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align: center">
+            <input type='button' value="Prikazi dnevne rezultate" (click)='results()'>
+          </td>
+        </tr>
+        <br>
+        <tr>
+          <td colspan="2" style="text-align: center">
+              <input type='button' value="Logout" (click)='logout()'>
+          </td>
+        </tr>
+      </table>
+    </form>
+</div>
+

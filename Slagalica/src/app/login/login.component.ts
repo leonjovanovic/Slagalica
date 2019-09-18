@@ -19,7 +19,10 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.usersSub = this.userService.getLoginUpdateListener()//cekamo dok nam ne posalje odgovor
     .subscribe(({flag, type}) => {
-      if (flag) { this.router.navigate([type.toLowerCase()]); }
+      if (flag) {
+        localStorage.setItem("username", this.username);
+        this.router.navigate([type.toLowerCase()]);
+      }
       else {
         this.poruka = 'Username or password is not correct!';
       }

@@ -47,7 +47,7 @@ export class UserService {
   login(username: string, password: string){
     this.http
       .post<{ flag: boolean, type: string }>('http://localhost:3000/login', {username, password})
-      .subscribe(responseData => {
+      .subscribe(responseData => {console.log(responseData.type);
         this.loginUpdated.next({flag: responseData.flag, type: responseData.type});
       });
   }

@@ -1,0 +1,50 @@
+<div style='margin-left: auto; margin-right: auto; width: 10em;'>
+    <form #forma="ngForm">
+      <table>
+        <tr>
+          <td>
+            Anagram:
+          </td>
+          <td>
+            <mat-form-field>
+              <input matInput type='text' name='anagram' ngModel required #anagram1="ngModel" [(ngModel)]="this.anagram">
+              <mat-error *ngIf="anagram1.invalid">Please enter anagram.</mat-error>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Recenica:
+          </td>
+          <td>
+              <mat-form-field>
+                <input matInput type='text' name='recenica' ngModel required #recenica1="ngModel" [(ngModel)]="this.recenica">
+                <mat-error *ngIf="recenica1.invalid">Please enter sentance.</mat-error>
+              </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align: center">
+            <input type='button' value="Publish" (click)='publish()'>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align: center">
+            {{poruka}}
+          </td>
+        </tr>
+        <br>
+        <br>
+        <tr>
+          <td colspan="2" style="text-align: center">
+            <input type='button' value="Go back to menu" (click)='back()'>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align: center">
+            <input type='button' value="Logout" (click)='logout()'>
+          </td>
+        </tr>
+      </table>
+    </form>
+    </div>

@@ -10,6 +10,12 @@ import { TakmicarComponent } from './takmicar/takmicar.component';
 import { SupervizorComponent } from './supervizor/supervizor.component';
 import { AdministratorComponent } from './administrator/administrator.component';
 import { GostComponent } from './gost/gost.component';
+import { CreateAnagramComponent } from './create-anagram/create-anagram.component';
+import { CreateGeographyComponent } from './create-geography/create-geography.component';
+import { DailyResultsComponent } from './daily-results/daily-results.component';
+import { AnagramComponent } from './anagram/anagram.component';
+import { GeografijaComponent } from './geografija/geografija.component';
+import { MojBrojComponent } from './moj-broj/moj-broj.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -21,7 +27,13 @@ const routes: Routes = [
   {path: 'takmicar', component: TakmicarComponent},
   {path: 'supervizor', component: SupervizorComponent},
   {path: 'administrator', component: AdministratorComponent},
-  {path: 'gost', component: GostComponent}
+  {path: 'gost', component: GostComponent},
+  {path: 'createAnagram', component: CreateAnagramComponent},
+  {path: 'createGeography', component: CreateGeographyComponent},
+  {path: 'dailyResults', component: DailyResultsComponent},
+  {path: 'anagram', component: AnagramComponent},
+  {path: 'geografija', component: GeografijaComponent},
+  {path: 'mojBroj', component: MojBrojComponent}
 ];
 
 @NgModule({
