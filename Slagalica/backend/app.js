@@ -597,4 +597,40 @@ app.post("/resultAnagram", (req, res, next) => {
   });
 });
 
+app.post("/mojBroj", (req, res, next) => {
+  mongo.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, (err, client) => {
+    if (err) {
+      console.error(err)
+      res.status(200).json({
+        flag: false
+      });
+      return
+    }
+    const db = client.db('database');
+    const collection = db.collection('games');
+    collection.insertOne({ username: req.body.username, points: req.body.points, datum: new Date() }, (err, item) => {
+      if(item != null){
+        res.status(200).json({
+          flag : true
+        });
+        client.close();
+      } else {
+        res.status(200).json({
+          flag : false
+        });
+        client.close();
+      }
+      if(err){
+        res.status(200).json({
+          flag : false
+        });
+        client.close();
+      }
+    });
+  });
+});
+
 module.exports = app;

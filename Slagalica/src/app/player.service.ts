@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({providedIn: 'root'})
 export class PlayerService {
   private playGameUpdated = new Subject<{flag: boolean, game: string, id:number}>();
+  private mojBrojUpdated = new Subject<boolean>();
 
   constructor(private http: HttpClient) {}
 
@@ -18,5 +19,16 @@ export class PlayerService {
 
   getPlayGameUpdateListener() {
     return this.playGameUpdated.asObservable();
+  }
+
+  mojBroj(username: string, points: number){
+    this.http.post<{ flag: boolean}>('http://localhost:3000/mojBroj',{username, points})
+    .subscribe(responseData => {
+      this.mojBrojUpdated.next(responseData.flag);
+    });
+  }
+
+  getMojBrojUpdateListener() {
+    return this.mojBrojUpdated.asObservable();
   }
 }

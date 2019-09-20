@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { timer } from 'rxjs';
+import { PlayerService } from '../player.service';
 
 @Component({
   selector: 'app-moj-broj',
@@ -33,7 +34,7 @@ export class MojBrojComponent implements OnInit {
   array100: number[] = [25, 50, 75, 100];
   points: number;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, public playerService:PlayerService) {
     this.num1Rand();
     this.num2Rand();
     this.num3Rand();
@@ -41,6 +42,11 @@ export class MojBrojComponent implements OnInit {
     this.num10Rand();
     this.num100Rand();
     this.brojRand();
+
+    this.playerService.getMojBrojUpdateListener()
+    .subscribe((flag) => {
+      if(flag)this.poruka = "Osvojili ste "+this.points+" poena!";
+    });
    }
 
   ngOnInit() {
@@ -59,12 +65,16 @@ export class MojBrojComponent implements OnInit {
   }
 
   finish(){
+    if(!this.flagFinish)return;
     this.flagFinish = false;
+    let num: number = +this.result;
 
-    if(eval(this.answer) === this.result.valueOf()){ this.points = 0;}
-    else if(this.result.valueOf() as number == this.broj){ this.points = 20;}
+    //TODO CHECK IF OUR NUMBERS WERE USED
+
+    if(eval(this.answer) !== num){ this.points = 0;}
+    else if(num === this.broj){ this.points = 20;}
     else {this.points = 10;}
-    this.poruka = this.answer;
+    this.playerService.mojBroj(localStorage.getItem("username"), this.points);
   }
 
   back(){
@@ -135,8 +145,11 @@ export class MojBrojComponent implements OnInit {
     const source = timer(1000, 1001);
     const abc = source.subscribe(val => {
       this.subscribeTimer = this.timeLeft - val;
-      if(this.subscribeTimer == 0 || !this.flagFinish){
+      if(this.subscribeTimer == 0){
         this.finish();
+        abc.unsubscribe();
+      }
+      if(!this.flagFinish){
         abc.unsubscribe();
       }
     });
