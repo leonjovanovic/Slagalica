@@ -28,7 +28,6 @@ import { DailyResultsComponent } from './daily-results/daily-results.component';
 import { AnagramComponent } from './anagram/anagram.component';
 import { GeografijaComponent } from './geografija/geografija.component';
 import { MojBrojComponent } from './moj-broj/moj-broj.component';
-
 @NgModule({
   declarations: [
     AppComponent,

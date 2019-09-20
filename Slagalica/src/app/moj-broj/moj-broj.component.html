@@ -15,52 +15,81 @@
       </tr>
       <tr >
         <td style="white-space:nowrap;">
-          {{num1}}
+          <input type='button' value={{num1}} (click)="addSymbol('1')" [disabled]= used1>
         </td>
         <td style="white-space:nowrap;">
-          {{num2}}
+          <input type='button' value={{num2}} (click)="addSymbol('2')" [disabled]= used2>
         </td>
         <td style="white-space:nowrap;">
-          {{num3}}
+          <input type='button' value={{num3}} (click)="addSymbol('3')" [disabled]= used3>
         </td>
         <td style="white-space:nowrap;">
-          {{num4}}
-        </td>
-        <td style="white-space:nowrap;">
-          &nbsp;
-        </td>
-        <td style="white-space:nowrap;">
-          {{num10}}
+          <input type='button' value={{num4}} (click)="addSymbol('4')" [disabled]= used4>
         </td>
         <td style="white-space:nowrap;">
           &nbsp;
         </td>
         <td style="white-space:nowrap;">
-          {{num100}}
+          <input type='button' value={{num10}} (click)="addSymbol('10')" [disabled]= used10>
+        </td>
+        <td style="white-space:nowrap;">
+          &nbsp;
+        </td>
+        <td style="white-space:nowrap;">
+          <input type='button' value={{num100}} (click)="addSymbol('100')" [disabled]= used100>
+        </td>
+      </tr>
+      <tr >
+        <td style="white-space:nowrap;">
+          <input type='button' value="+" (click)="addSymbol('+')" >
+        </td>
+        <td style="white-space:nowrap;">
+          <input type='button' value="-" (click)="addSymbol('-')">
+        </td>
+        <td style="white-space:nowrap;">
+          <input type='button' value="*" (click)="addSymbol('*')">
+        </td>
+        <td style="white-space:nowrap;">
+          <input type='button' value="/" (click)="addSymbol('/')">
+        </td>
+        <td style="white-space:nowrap;">
+          &nbsp;
+        </td>
+        <td style="white-space:nowrap;">
+          <input type='button' value="(" (click)="addSymbol('(')">
+        </td>
+        <td style="white-space:nowrap;">
+          &nbsp;
+        </td>
+        <td style="white-space:nowrap;">
+          <input type='button' value=")" (click)="addSymbol(')')">
+        </td>
+      </tr>
+      <tr>
+        <td colspan="8">
+          <mat-card>
+            <mat-card-content>
+                Resenje (izraz): {{this.answer}}
+            </mat-card-content>
+            <input type='button' value="<=" (click)="popSymbol()">
+          </mat-card>
         </td>
       </tr>
       <tr>
         <td colspan="8">
           <mat-form-field>
-            Resenje (izraz):<input matInput type='text' name='answer' [(ngModel)]="this.answer" width="100%">
+            Konacan rezultat: <input matInput type='text' name='result' [(ngModel)]="this.result" width="100%">
           </mat-form-field>
         </td>
       </tr>
       <tr>
         <td colspan="8">
-          <mat-form-field>
-            Konacan rezultat:<input matInput type='text' name='result' [(ngModel)]="this.result" width="100%">
-          </mat-form-field>
+          <input type='button' value="Stop" (click)='stop()' [disabled]=flagStop>
         </td>
       </tr>
       <tr>
         <td colspan="8">
-          <input type='button' value="Stop" (click)='stop()'>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="8">
-          <input type='button' value="Finish" (click)='finish()'>
+          <input type='button' value="Finish" (click)='finish()' [disabled]=flagFinish>
         </td>
       </tr>
       <tr>
