@@ -460,7 +460,7 @@ app.get("/playGame", (req, res, next) => {
     if (err) {
       console.error(err)
       res.status(200).json({
-        players20 : null
+        flag : false
       });
       return
     }
@@ -474,7 +474,8 @@ app.get("/playGame", (req, res, next) => {
       if(item != null){
         res.status(200).json({
           flag : true,
-          game : item.name
+          game : item.name,
+          id : item.id_igre
         });
         client.close();
       } else {
@@ -486,6 +487,109 @@ app.get("/playGame", (req, res, next) => {
       if(err){
         res.status(200).json({
           flag : false
+        });
+        client.close();
+      }
+    });
+  });
+});
+
+app.post("/getAnagram", (req, res, next) => {
+  mongo.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, (err, client) => {
+    if (err) {
+      console.error(err)
+      res.status(200).json({
+        anagram : null
+      });
+      return
+    }
+    const db = client.db('database');
+    const collection = db.collection('anagrams');
+    //console.log(req.body);
+    collection.findOne({"id" : req.body.id}, (err, item) => {
+      if(item != null){
+        //console.log(item.anagram);
+        res.status(200).json({
+          anagram : item.anagram
+        });
+        client.close();
+      } else {
+        console.log("ne radi1");
+        res.status(200).json({
+          anagram : null
+        });
+        client.close();
+      }
+      if(err){
+        res.status(200).json({
+          anagram : null
+        });
+        client.close();
+      }
+    });
+  });
+});
+
+app.post("/resultAnagram", (req, res, next) => {
+  mongo.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, (err, client) => {
+    if (err) {
+      console.error(err)
+      res.status(200).json({
+        flag: false,
+        points: null
+      });
+      return
+    }
+    const db = client.db('database');
+    const collection = db.collection('anagrams');
+    collection.findOne({"id" : req.body.id}, (err, item) => {
+      if(item != null){
+        const collection2 = db.collection('games');
+        var points;
+        if(item.recenica === req.body.answer){
+          points = 20;
+        }else{
+          points = 0;
+        }
+        collection2.insertOne({ username: req.body.username, points: points, datum: new Date() }, (err, result) => {
+          if(result != null){
+            //console.log(result);
+            res.status(200).json({
+              flag : true,
+              points: points
+            });
+          } else {
+            res.status(200).json({
+              flag : false,
+              points: null
+            });
+            client.close();
+          }
+          if(err){
+            res.status(200).json({
+              flag : false,
+              points: null
+            });
+            client.close();
+          }
+        });
+      } else {
+        res.status(200).json({
+          flag : false,
+          points: null
+        });
+        client.close();
+      }
+      if(err){
+        res.status(200).json({
+          flag : false,
+          points: null
         });
         client.close();
       }

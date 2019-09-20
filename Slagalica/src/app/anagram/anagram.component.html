@@ -1,3 +1,49 @@
-<p>
-  anagram works!
-</p>
+<div style='margin-left: auto; margin-right: auto; width: 10em;'>
+  <form #forma="ngForm">
+    <table>
+      <tr>
+        <td colspan="2" style="text-align: center; white-space:nowrap;">
+            <p> {{subscribeTimer}}s</p>
+        </td>
+      </tr>
+      <tr>
+        <td style="white-space:nowrap;">
+          Anagram: &nbsp;
+        </td>
+        <td style="white-space:nowrap;">
+          {{anagram}}
+        </td>
+      </tr>
+      <tr>
+        <td style="white-space:nowrap; text-align: center">
+          Answer:
+        </td>
+        <td>
+            <mat-form-field>
+              <input matInput type='text' name='answer' [(ngModel)]="this.answer">
+            </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="text-align: center">
+          <input type='button' value="Finish" (click)='finish()' disabled="flag">
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="text-align: center; white-space:nowrap;">
+          <p style="color: black"><i>{{poruka}}</i></p>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="text-align: center; white-space:nowrap;">
+          <input type='button' value="Go back" (click)='back()'>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="text-align: center; white-space:nowrap;">
+            <input type='button' value="Logout" (click)='logout()'>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>
