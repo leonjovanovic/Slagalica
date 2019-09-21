@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Player } from './player';
+import { Anagram } from './anagram';
 
 @Injectable({providedIn: 'root'})
 export class AnagramService {
   private anagramUpdated = new Subject<boolean>();
   private getAnagramUpdated = new Subject<string>();
   private resultUpdated = new Subject<{flag: boolean, points: number}>();
+  private allAnagramsUpdated = new Subject<Anagram[]>();
 
   constructor(private http: HttpClient) {}
 
@@ -43,5 +45,16 @@ export class AnagramService {
 
   getResultUpdateListener(){
     return this.resultUpdated.asObservable();
+  }
+
+  allAnagrams(){
+    this.http.get<{ anagrams: Anagram[] }>("http://localhost:3000/allAnagrams")
+    .subscribe(responseData => {
+      this.allAnagramsUpdated.next([...responseData.anagrams]);
+    });
+  }
+
+  getAllAnagramsUpdateListener(){
+    return this.allAnagramsUpdated.asObservable();
   }
 }

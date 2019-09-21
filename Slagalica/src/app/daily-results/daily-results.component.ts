@@ -79,7 +79,7 @@ export class DailyResultsComponent implements OnInit {
   }
 
   inc(){
-    this.num++;
+    this.num = this.num + 1;
   }
 
 }

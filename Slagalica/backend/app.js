@@ -165,7 +165,7 @@ app.post("/changePass", (req, res, next) => {
           });
           client.close();
           return;
-        })
+        });
       } else {
         res.status(200).json({
           flag : false
@@ -321,6 +321,7 @@ app.get("/players20", (req, res, next) => {
         res.status(200).json({
           players20 : items
         });
+        client.close();
       } else {
         res.status(200).json({
           players20 : null
@@ -361,6 +362,7 @@ app.get("/players10", (req, res, next) => {
         res.status(200).json({
           players10 : items
         });
+        client.close();
       } else {
         res.status(200).json({
           players10 : null
@@ -396,10 +398,11 @@ app.get("/players1", (req, res, next) => {
     d.setDate(1);
     collection.find({datum: { $gte: d } }).toArray((function(err, items) {
       if(items != null){
-        console.log(items);
+        //console.log(items);
         res.status(200).json({
           players1 : items
         });
+        client.close();
       } else {
         res.status(200).json({
           players1 : null
@@ -452,7 +455,7 @@ app.post("/putAnagram", (req, res, next) => {
   });
 });
 
-app.get("/playGame", (req, res, next) => {
+app.post("/playGame", (req, res, next) => {
   mongo.connect(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -465,24 +468,42 @@ app.get("/playGame", (req, res, next) => {
       return
     }
     const db = client.db('database');
-    const collection = db.collection('calendar');
+    const collection = db.collection('games');
     var zero = new Date();
     var twelve = new Date();
     zero.setHours(0); zero.setMinutes(0); zero.setSeconds(0);
     twelve.setDate(twelve.getDate()+1); twelve.setHours(0); twelve.setMinutes(0); twelve.setSeconds(0);
-    collection.findOne({"datum" : {"$gte": zero,"$lt": twelve}}, (err, item) => {
+    collection.findOne({"datum" : {"$gte": zero,"$lt": twelve}, "username" : req.body.username}, (err, item) => {
       if(item != null){
         res.status(200).json({
           flag : true,
-          game : item.name,
-          id : item.id_igre
+          game : "takmicar",
+          id : -1
         });
         client.close();
       } else {
-        res.status(200).json({
-          flag : false
+        const collection = db.collection('calendar');
+        collection.findOne({"datum" : {"$gte": zero,"$lt": twelve}}, (err, item) => {
+          if(item != null){
+            res.status(200).json({
+              flag : true,
+              game : item.name,
+              id : item.id_igre
+            });
+            client.close();
+          } else {
+            res.status(200).json({
+              flag : false
+            });
+            client.close();
+          }
+          if(err){
+            res.status(200).json({
+              flag : false
+            });
+            client.close();
+          }
         });
-        client.close();
       }
       if(err){
         res.status(200).json({
@@ -517,7 +538,7 @@ app.post("/getAnagram", (req, res, next) => {
         });
         client.close();
       } else {
-        console.log("ne radi1");
+        //console.log("ne radi1");
         res.status(200).json({
           anagram : null
         });
@@ -666,6 +687,239 @@ app.get("/requests", (req, res, next) => {
         client.close();
       }
     }));
+  });
+});
+
+app.post("/accepted", (req, res, next) => {
+  mongo.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, (err, client) => {
+    if (err) {
+      console.error(err)
+      res.status(200).json({
+        flag : false
+      });
+      return
+    }
+    const db = client.db('database');
+    const collection = db.collection('users');
+    collection.insertOne({ name: req.body.user.name, surname: req.body.user.surname, email: req.body.user.email, job: req.body.user.job, username: req.body.user.username, password: req.body.user.password, gender: req.body.user.gender, jmbg: req.body.user.jmbg, question: req.body.user.question, answer: req.body.user.answer , type : req.body.user.type ,imagePath: req.body.user.imagePath}, (err, result) => {
+      if(result != null){
+
+        const collection = db.collection('requests');
+        collection.deleteOne({username: req.body.user.username}, (err,result)=>{
+          if(result != null){
+            res.status(200).json({
+              flag : true
+            });
+            client.close();
+          } else {
+            res.status(200).json({
+              flag : false
+            });
+            client.close();
+          }
+          if(err){
+            res.status(200).json({
+              flag : false
+            });
+            client.close();
+          }
+        });
+
+      } else {
+        res.status(200).json({
+          flag : false
+        });
+        client.close();
+      }
+      if(err){
+        res.status(200).json({
+          flag : false
+        });
+        client.close();
+      }
+    });
+  });
+});
+
+app.post("/rejected", (req, res, next) => {
+  mongo.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, (err, client) => {
+    if (err) {
+      console.error(err)
+      res.status(200).json({
+        flag : false
+      });
+      return
+    }
+    const db = client.db('database');
+    const collection = db.collection('requests');
+    collection.deleteOne({username: req.body.user.username}, (err,result)=>{
+      if(result != null){
+        res.status(200).json({
+          flag : true
+        });
+        client.close();
+      } else {
+        res.status(200).json({
+          flag : false
+        });
+        client.close();
+      }
+      if(err){
+        res.status(200).json({
+          flag : false
+        });
+        client.close();
+      }
+    });
+  });
+});
+
+app.get("/allAnagrams", (req, res, next) => {
+  mongo.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, (err, client) => {
+    if (err) {
+      console.error(err)
+      res.status(200).json({
+        anagrams : null
+      });
+      return
+    }
+    const db = client.db('database');
+    const collection = db.collection('anagrams');
+    collection.find().toArray((function(err, items) {
+      if(items != null){
+        res.status(200).json({
+          anagrams : items
+        });
+      } else {
+        res.status(200).json({
+          anagrams : null
+        });
+        client.close();
+      }
+      if(err){
+        res.status(200).json({
+          anagrams : null
+        });
+        client.close();
+      }
+    }));
+  });
+});
+
+app.post("/insertGame", (req, res, next) => {
+  mongo.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, (err, client) => {
+    if (err) {
+      console.error(err)
+      res.status(200).json({
+        flag : false
+      });
+      return
+    }
+    const db = client.db('database');
+    const collection = db.collection('calendar');
+    var zero = new Date(req.body.date);
+    var twelve = new Date(req.body.date);
+    zero.setHours(0); zero.setMinutes(0); zero.setSeconds(0);
+    twelve.setDate(twelve.getDate()+1); twelve.setHours(0); twelve.setMinutes(0); twelve.setSeconds(0);
+    collection.findOne({"datum" : {"$gte": zero,"$lt": twelve}}, (err, items)=> {
+      if(items != null){
+        //console.log("UPDATE");
+        collection.updateOne({"datum" : {"$gte": zero,"$lt": twelve}}, {'$set': { name: req.body.name, id_igre: req.body.id, datum: new Date(req.body.date)}}, (err, item) => {
+          if(err){
+            res.status(200).json({
+              flag : false
+            });
+            client.close();
+            return;
+          }
+          res.status(200).json({
+            flag : true
+          });
+          client.close();
+          return;
+        });
+      } else {
+        //console.log("INSERT");
+        collection.insertOne({ name: req.body.name, id_igre: req.body.id, datum: new Date(req.body.date)}, (err, result) => {
+          if(result != null){
+            res.status(200).json({
+              flag : true
+            });
+            client.close();
+          } else {
+            res.status(200).json({
+              flag : false
+            });
+            client.close();
+          }
+          if(err){
+            res.status(200).json({
+              flag : false
+            });
+            client.close();
+          }
+        });
+      }
+      if(err){
+        res.status(200).json({
+          flag: false
+        });
+        client.close();
+      }
+    });
+  });
+});
+
+app.post("/alreadyPlayed", (req, res, next) => {
+  mongo.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, (err, client) => {
+    if (err) {
+      console.error(err)
+      res.status(200).json({
+        flag: 0
+      });
+      return
+    }
+    const db = client.db('database');
+    const collection = db.collection('games');
+    var zero = new Date(req.body.date);
+    var twelve = new Date(req.body.date);
+    zero.setHours(0); zero.setMinutes(0); zero.setSeconds(0);
+    twelve.setDate(twelve.getDate()+1); twelve.setHours(0); twelve.setMinutes(0); twelve.setSeconds(0);
+    collection.findOne({"datum" : {"$gte": zero,"$lt": twelve}}, (err, items)=> {
+      if(items != null){
+        console.log(items);
+        res.status(200).json({
+          flag: 1
+        });
+        client.close();
+      } else {
+        res.status(200).json({
+          flag: 2
+        });
+        client.close();
+      }
+      if(err){
+        res.status(200).json({
+          flag: 0
+        });
+        client.close();
+      }
+    });
   });
 });
 

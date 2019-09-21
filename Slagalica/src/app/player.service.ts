@@ -9,9 +9,9 @@ export class PlayerService {
 
   constructor(private http: HttpClient) {}
 
-  playGame(){
+  playGame(username: string){
     this.http
-    .get<{ flag: boolean, game: string, id: number }>("http://localhost:3000/playGame")
+    .post<{ flag: boolean, game: string, id: number }>("http://localhost:3000/playGame", {username})
     .subscribe(responseData => {
       this.playGameUpdated.next({flag: responseData.flag, game: responseData.game, id: responseData.id});
     });

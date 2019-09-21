@@ -10,6 +10,8 @@ import { MatInputModule,
   MatToolbarModule,
   MatExpansionModule } from '@angular/material';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatMenuModule } from '@angular/material/menu';
+import {MatSelectModule} from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
@@ -63,7 +65,9 @@ import { RegulateGamesComponent } from './regulate-games/regulate-games.componen
     MatToolbarModule,
     MatExpansionModule,
     MatRadioModule,
-    HttpClientModule
+    HttpClientModule,
+    MatMenuModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

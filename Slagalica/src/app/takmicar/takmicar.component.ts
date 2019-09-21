@@ -13,8 +13,9 @@ export class TakmicarComponent implements OnInit {
   private usersSub: Subscription;
   constructor(private router: Router, public playerService: PlayerService) {
     this.usersSub = this.playerService.getPlayGameUpdateListener()//cekamo dok nam ne posalje odgovor
-    .subscribe(({flag, game}) => {
-      if(flag) this.router.navigate([game]);
+    .subscribe(({flag, game, id}) => {
+      if(flag && (id !== -1)) this.router.navigate([game]);
+      else if(id === -1) this.poruka = "Game of the day has already been played";
       else this.poruka = "There isn't any available game at the moment, please try again later.";
     });
   }
@@ -23,7 +24,7 @@ export class TakmicarComponent implements OnInit {
   }
 
   playGame(){//na koju igru da redictujemo
-    this.playerService.playGame();
+    this.playerService.playGame(localStorage.getItem("username"));
   }
 
   results(){

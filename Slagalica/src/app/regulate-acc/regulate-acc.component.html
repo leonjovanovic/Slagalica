@@ -46,10 +46,15 @@
         {{acc.jmbg}}
       </td>
       <td>
-        <input type='button' value="Accept" (click)='accept()'>
+        <input type='button' value="Accept" (click)='accept(acc)'>
       </td>
       <td>
-        <input type='button' value="Reject" (click)='reject()'>
+        <input type='button' value="Reject" (click)='reject(acc)'>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="7" style="text-align: center">
+        <p style="color: red"><i>{{poruka}}</i></p>
       </td>
     </tr>
     <tr>

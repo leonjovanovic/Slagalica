@@ -1,41 +1,55 @@
-<div style='margin-left: auto; margin-right: auto; width: 3.5em;'>
+<div style='margin-left: auto; margin-right: auto; width: 13em;'>
     <table>
       <tr>
-        <td>
-          Name:&nbsp;
+        <td style="white-space:nowrap;">
+          Izaberite datum:
         </td>
         <td>
-          Surname:&nbsp;
-        </td>
-        <td>
-          Email:&nbsp;
-        </td>
-        <td>
-          Occupation:&nbsp;
-        </td>
-        <td>
-          Username:&nbsp;
-        </td>
-        <td>
-          Pol:&nbsp;
-        </td>
-        <td>
-          JMBG:&nbsp;
-        </td>
-        <td  style="white-space:nowrap;">
-
+          <input type='date' min="{{todayString}}" value="{{todayString}}" [(ngModel)]="pickedDate">
         </td>
       </tr>
-
+      <br>
       <tr>
-        <td colspan="5" style="text-align: center">
+        <td colspan="2" style="white-space:nowrap; text-align: center">
+          <mat-form-field>
+            <mat-label>Izaberite igru</mat-label>
+            <mat-select [(value)]="game" (selectionChange)="loadAnagrams()">
+              <mat-option value="anagram">Anagram</mat-option>
+              <mat-option value="mojBroj">Moj Broj</mat-option>
+              <mat-option value="geografija">Zanimljiva geografija</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="white-space:nowrap; text-align: center" *ngIf="game==='anagram'">
+          <mat-form-field>
+            <mat-label>Izaberite anagram</mat-label>
+            <mat-select [(ngModel)]="anagram">
+              <ng-container *ngFor="let an of anagrams">
+                <mat-option [value]="an">{{an.anagram}}</mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="text-align: center">
+          <p style="color: red"><i>{{poruka}}</i></p>
+          <input type='button' value="Submit" (click)='insertGame()'>
+        </td>
+      </tr>
+      <br>
+      <tr>
+        <td colspan="2" style="text-align: center">
           <input type='button' value="Go back" (click)='back()'>
         </td>
       </tr>
       <tr>
-        <td colspan="5" style="text-align: center">
+        <td colspan="2" style="text-align: center">
             <input type='button' value="Logout" (click)='logout()'>
         </td>
       </tr>
     </table>
   </div>
+{{pickedDate}}

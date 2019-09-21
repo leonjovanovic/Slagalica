@@ -15,6 +15,7 @@ export class AnagramComponent implements OnInit {
   answer: string;
   id: number;
   flag: boolean;
+  flagFinish: boolean;
   subscribeTimer:number;
   timeLeft: number=60;
 
@@ -31,7 +32,7 @@ export class AnagramComponent implements OnInit {
       }
       else {this.poruka = "No available game at the moment, please try later.";}
     });
-    this.playerService.playGame();
+    this.playerService.playGame(localStorage.getItem("username"));
 
     this.anagramService.getResultUpdateListener()
     .subscribe(({flag, points}) => {
@@ -41,11 +42,13 @@ export class AnagramComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.flag = true;
+    this.flag = false;
+    this.flagFinish = false;
     this.oberserableTimer();
   }
 
   finish(){
+    this.flagFinish = true;
     const username = localStorage.getItem("username");
     this.anagramService.result(this.id, this.answer, username);
     this.answer= "";
@@ -63,7 +66,7 @@ export class AnagramComponent implements OnInit {
     const source = timer(1000, 1001);
     const abc = source.subscribe(val => {
       this.subscribeTimer = this.timeLeft - val;
-      if(this.subscribeTimer == 0){
+      if(this.subscribeTimer == 0 || this.flagFinish){
         this.finish();
         abc.unsubscribe();
       }

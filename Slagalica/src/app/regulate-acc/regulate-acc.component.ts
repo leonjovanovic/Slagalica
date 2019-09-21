@@ -11,6 +11,8 @@ import { UserService } from '../app.service';
 export class RegulateAccComponent implements OnInit {
 
   accounts: User[] = [];
+  toRemoveUser: User;
+  poruka: string;
 
   constructor(private router: Router, public userService: UserService ) {
     this.userService.getRequestsUpdateListener()
@@ -18,17 +20,35 @@ export class RegulateAccComponent implements OnInit {
       this.accounts = accounts;
     });
     this.userService.getRequests();
+
+    this.userService.getAcceptedUpdateListener()
+    .subscribe((flag: boolean) => {
+      if(flag) {
+        this.accounts = this.accounts.filter(obj => obj !== this.toRemoveUser);
+        this.poruka = "Uspesno ubacen u listu naloga!";
+      }
+    });
+
+    this.userService.getRejectedUpdateListener()
+    .subscribe((flag: boolean) => {
+      if(flag) {
+        this.accounts = this.accounts.filter(obj => obj !== this.toRemoveUser);
+        this.poruka = "Uspesno izbacen iz liste naloga!";
+      }
+    });
    }
 
   ngOnInit() {
   }
 
-  accept(){
-
+  accept(user: User){
+    this.toRemoveUser = user;
+    this.userService.accepted(user);
   }
 
-  reject(){
-
+  reject(user: User){
+    this.toRemoveUser = user;
+    this.userService.rejected(user);
   }
 
   back(){

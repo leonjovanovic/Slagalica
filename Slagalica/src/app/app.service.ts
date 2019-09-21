@@ -14,6 +14,10 @@ export class UserService {
   private secretAnsUpdated = new Subject<boolean>();
   private forgChangePassUpdated = new Subject<boolean>();
   private accountsUpdated = new Subject<User[]>();
+  private acceptedUpdated = new Subject<boolean>();
+  private rejectedUpdated = new Subject<boolean>();
+  private alreadyPlayedUpdated = new Subject<number>();
+  private insertGameUpdated = new Subject<boolean>();
   private secretQuest: string;
   private secretUsername: string;
 
@@ -127,5 +131,51 @@ export class UserService {
 
   getRequestsUpdateListener(){
     return this.accountsUpdated.asObservable();
+  }
+
+  accepted(user: User){
+    this.http
+    .post<{ flag: boolean }>('http://localhost:3000/accepted', {user})
+    .subscribe(responseData => {
+      this.acceptedUpdated.next(responseData.flag);
+    });
+  }
+
+  getAcceptedUpdateListener() {
+    return this.acceptedUpdated.asObservable();
+  }
+
+  rejected(user: User){
+    this.http
+    .post<{ flag: boolean }>('http://localhost:3000/rejected', {user})
+    .subscribe(responseData => {
+      this.rejectedUpdated.next(responseData.flag);
+    });
+  }
+
+  getRejectedUpdateListener() {
+    return this.rejectedUpdated.asObservable();
+  }
+
+  insertGame(name: string, id: number, date: Date){
+    this.http.post<{ flag: boolean }>('http://localhost:3000/insertGame', {name, id, date})
+    .subscribe(responseData => {
+      this.insertGameUpdated.next(responseData.flag);
+    });
+  }
+
+  getinsertGameUpdateListener() {
+    return this.insertGameUpdated.asObservable();
+  }
+
+  alreadyPlayed(date: Date){
+    this.http.post<{ flag: number }>('http://localhost:3000/alreadyPlayed', {date})
+    .subscribe(responseData => {
+      this.alreadyPlayedUpdated.next(responseData.flag);
+    });
+  }
+
+  getAlreadyPlayedUpdatedListener(){
+    return this.alreadyPlayedUpdated.asObservable();
   }
 }
