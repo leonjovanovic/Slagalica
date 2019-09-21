@@ -1,3 +1,23 @@
-<p>
-  administrator works!
-</p>
+<div style='margin-left: auto; margin-right: auto; width: 10em;'>
+  <form #forma="ngForm">
+    <table>
+      <tr>
+        <td style="text-align: center">
+          <input type='button' value="Regulisi zahteve za naloge" (click)='accounts()'>
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: center">
+          <input type='button' value="Regulisi igre dana" (click)='games()'>
+        </td>
+      </tr>
+      <br>
+      <tr>
+        <td style="text-align: center">
+          <input type='button' value="Logout" (click)='logout()'>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>
+

@@ -13,6 +13,7 @@ export class UserService {
   private secretQueUpdated = new Subject<string>();
   private secretAnsUpdated = new Subject<boolean>();
   private forgChangePassUpdated = new Subject<boolean>();
+  private accountsUpdated = new Subject<User[]>();
   private secretQuest: string;
   private secretUsername: string;
 
@@ -115,5 +116,16 @@ export class UserService {
   }
   broj(){
     return this.users.length;
+  }
+
+  getRequests(){
+    this.http.get<{ accounts: User[] }>("http://localhost:3000/requests")
+    .subscribe(responseData => {
+      this.accountsUpdated.next([...responseData.accounts]);
+    });
+  }
+
+  getRequestsUpdateListener(){
+    return this.accountsUpdated.asObservable();
   }
 }

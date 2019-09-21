@@ -28,6 +28,8 @@ import { DailyResultsComponent } from './daily-results/daily-results.component';
 import { AnagramComponent } from './anagram/anagram.component';
 import { GeografijaComponent } from './geografija/geografija.component';
 import { MojBrojComponent } from './moj-broj/moj-broj.component';
+import { RegulateAccComponent } from './regulate-acc/regulate-acc.component';
+import { RegulateGamesComponent } from './regulate-games/regulate-games.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +48,9 @@ import { MojBrojComponent } from './moj-broj/moj-broj.component';
     DailyResultsComponent,
     AnagramComponent,
     GeografijaComponent,
-    MojBrojComponent
+    MojBrojComponent,
+    RegulateAccComponent,
+    RegulateGamesComponent
   ],
   imports: [
     BrowserModule,

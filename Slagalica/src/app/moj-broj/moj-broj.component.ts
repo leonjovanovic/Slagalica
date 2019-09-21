@@ -35,12 +35,13 @@ export class MojBrojComponent implements OnInit {
   flagNum100 = true;
   array100: number[] = [25, 50, 75, 100];
   points: number;
-  used1: boolean= false;
-  used2: boolean = false;
-  used3: boolean = false;
-  used4: boolean = false;
-  used10: boolean = false;
-  used100: boolean = false;
+  used1: boolean= true;
+  used2: boolean = true;
+  used3: boolean = true;
+  used4: boolean = true;
+  used10: boolean = true;
+  used100: boolean = true;
+  flagsArray: boolean[] = [false, false, false, false, false, false];
 
   constructor(private router: Router, public playerService: PlayerService) {
     this.num1Rand();
@@ -64,19 +65,26 @@ export class MojBrojComponent implements OnInit {
 
   stop() {
     if (this.flagBroj) { this.flagBroj = false; }
-    else if (this.flagNum1) { this.flagNum1 = false; }
-    else if (this.flagNum2) { this.flagNum2 = false; }
-    else if (this.flagNum3) { this.flagNum3 = false; }
-    else if (this.flagNum4) { this.flagNum4 = false; }
-    else if (this.flagNum10) { this.flagNum10 = false; }
-    else if (this.flagNum100) {this.flagNum100 = false; this.oberserableTimer(); this.flagFinish = false; this.flagStop = true}
+    else if (this.flagNum1) { this.flagNum1 = false; this.used1 = false; this.flagsArray[0] = false; }
+    else if (this.flagNum2) { this.flagNum2 = false; this.used2 = false; this.flagsArray[1] = false;}
+    else if (this.flagNum3) { this.flagNum3 = false; this.used3 = false; this.flagsArray[2] = false;}
+    else if (this.flagNum4) { this.flagNum4 = false; this.used4 = false; this.flagsArray[3] = false;}
+    else if (this.flagNum10) { this.flagNum10 = false; this.used10 = false; this.flagsArray[4] = false;}
+    else if (this.flagNum100) {this.flagNum100 = false; this.oberserableTimer(); this.flagFinish = false; this.flagStop = true; this.used100 = false;this.flagsArray[5] = false;}
   }
 
   finish() {
     this.flagFinish = true;
     const num: number = +this.result;
-    if (eval(this.answer) !== num || eval(this.answer) === undefined) { this.points = 0; } else if (num === this.broj) { this.points = 20; } else {this.points = 10; }
-
+    try {
+      if (eval(this.answer) !== num) { this.points = 0; }
+      else if (num === this.broj) { this.points = 20; }
+      else {this.points = 10; }
+    } catch(e) {
+      if (e instanceof SyntaxError) {
+          this.points = 0;
+      }
+  }
     this.playerService.mojBroj(localStorage.getItem('username'), this.points);
   }
 
@@ -152,36 +160,52 @@ export class MojBrojComponent implements OnInit {
         this.finish();
         abc.unsubscribe();
       }
-      if (!this.flagFinish) {
+      if (this.flagFinish) {
         abc.unsubscribe();
       }
     });
   }
 
   addSymbol(c: string) {
-    if (c === '1') {this.answerArray.push(this.num1.toString()); this.answer = this.answer + this.num1; this.used1 = true; return; }
-    if (c === '2') {this.answerArray.push(this.num2.toString()); this.answer = this.answer + this.num2; this.used2 = true; return; }
-    if (c === '3') {this.answerArray.push(this.num3.toString()); this.answer = this.answer + this.num3; this.used3 = true; return; }
-    if (c === '4') {this.answerArray.push(this.num4.toString()); this.answer = this.answer + this.num4; this.used4 = true; return; }
-    if (c === '10') {this.answerArray.push(this.num10.toString()); this.answer = this.answer + this.num10; this.used10 = true; return; }
-    if (c === '100') {this.answerArray.push(this.num100.toString()); this.answer = this.answer + this.num10; this.used100 = true; return; }
-    this.answerArray.push(c); this.answer = this.answer + c;
+    if (c === '1') {this.answerArray.push(this.num1.toString()); this.answer = this.answer + this.num1; this.setFlags(); this.flagsArray[0] = true; return; }
+    if (c === '2') {this.answerArray.push(this.num2.toString()); this.answer = this.answer + this.num2; this.setFlags(); this.flagsArray[1] = true; return; }
+    if (c === '3') {this.answerArray.push(this.num3.toString()); this.answer = this.answer + this.num3; this.setFlags(); this.flagsArray[2] = true; return; }
+    if (c === '4') {this.answerArray.push(this.num4.toString()); this.answer = this.answer + this.num4; this.setFlags(); this.flagsArray[3] = true; return; }
+    if (c === '10') {this.answerArray.push(this.num10.toString()); this.answer = this.answer + this.num10; this.setFlags(); this.flagsArray[4] = true; return; }
+    if (c === '100') {this.answerArray.push(this.num100.toString()); this.answer = this.answer + this.num100; this.setFlags(); this.flagsArray[5] = true; return; }
+    this.answerArray.push(c); this.answer = this.answer + c; this.restoreFlags();
   }
 
   popSymbol() {
     const temp = this.answerArray.pop();
-    if (isNaN(Number(temp))) {this.answer = this.answer.substring(0, this.answer.length - 1); return; }
+    if(temp === '('){this.answer = this.answer.substring(0, this.answer.length - 1); this.restoreFlags(); return; }
+    if (isNaN(Number(temp))) {this.answer = this.answer.substring(0, this.answer.length - 1); this.setFlags(); return; }
     const br = +temp;
     if (br > 9) {
-      if (br > 20) {this.used100 = false; }
-      else { this.used10 = false; }
+      if (br > 20) {this.used100 = false; this.flagsArray[5] = false;}
+      else { this.used10 = false; this.flagsArray[4] = false;}
       this.answer = this.answer.substring(0, this.answer.length - 2);
+      this.restoreFlags();
+      return;
     } else {
       this.answer = this.answer.substring(0, this.answer.length - 1);
-      if(br === this.num1 && this.used1) {this.used1 = false; return;}
-      if(br === this.num2 && this.used2) {this.used2 = false; return;}
-      if(br === this.num3 && this.used3) {this.used3 = false; return;}
-      if(br === this.num4 && this.used4) {this.used4 = false; return;}
+      if(br === this.num1 && this.used1) {this.used1 = false; this.flagsArray[0] = false; this.restoreFlags(); return;}
+      if(br === this.num2 && this.used2) {this.used2 = false; this.flagsArray[1] = false; this.restoreFlags(); return;}
+      if(br === this.num3 && this.used3) {this.used3 = false; this.flagsArray[2] = false; this.restoreFlags(); return;}
+      if(br === this.num4 && this.used4) {this.used4 = false; this.flagsArray[3] = false; this.restoreFlags(); return;}
     }
+  }
+
+  setFlags(){//Oni koji nisu disejblovani se cuvaju
+    this.used1 = this.used2 = this.used3 = this.used4 = this.used10 = this.used100 = true;
+  }
+
+  restoreFlags(){
+    this.used1 = this.flagsArray[0];
+    this.used2 = this.flagsArray[1];
+    this.used3 = this.flagsArray[2];
+    this.used4 = this.flagsArray[3];
+    this.used10 = this.flagsArray[4];
+    this.used100 = this.flagsArray[5];
   }
 }

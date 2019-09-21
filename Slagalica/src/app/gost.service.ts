@@ -14,7 +14,7 @@ export class GostService {
 
   constructor(private http: HttpClient) {}
 
-  getPlayers20(){//signUp komponenta prosledjuje napravljenog usera
+  getPlayers20(){
     this.http
     .get<{ players20: Player[] }>(
       "http://localhost:3000/players20"

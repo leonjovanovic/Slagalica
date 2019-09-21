@@ -16,6 +16,8 @@ import { DailyResultsComponent } from './daily-results/daily-results.component';
 import { AnagramComponent } from './anagram/anagram.component';
 import { GeografijaComponent } from './geografija/geografija.component';
 import { MojBrojComponent } from './moj-broj/moj-broj.component';
+import { RegulateAccComponent } from './regulate-acc/regulate-acc.component';
+import { RegulateGamesComponent } from './regulate-games/regulate-games.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -33,7 +35,9 @@ const routes: Routes = [
   {path: 'dailyResults', component: DailyResultsComponent},
   {path: 'anagram', component: AnagramComponent},
   {path: 'geografija', component: GeografijaComponent},
-  {path: 'mojBroj', component: MojBrojComponent}
+  {path: 'mojBroj', component: MojBrojComponent},
+  {path: 'regulateAcc', component: RegulateAccComponent},
+  {path: 'regulateGames', component: RegulateGamesComponent}
 ];
 
 @NgModule({

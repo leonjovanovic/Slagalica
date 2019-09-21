@@ -1,0 +1,66 @@
+<div style='margin-left: auto; margin-right: auto; width: 26em;'>
+  <table>
+    <tr>
+      <td>
+        Name:&nbsp;
+      </td>
+      <td>
+        Surname:&nbsp;
+      </td>
+      <td>
+        Email:&nbsp;
+      </td>
+      <td>
+        Occupation:&nbsp;
+      </td>
+      <td>
+        Username:&nbsp;
+      </td>
+      <td>
+        Pol:&nbsp;
+      </td>
+      <td>
+        JMBG:&nbsp;
+      </td>
+    </tr>
+    <tr *ngFor="let acc of accounts">
+      <td style="white-space:nowrap;">
+        {{acc.name}}
+      </td>
+      <td style="white-space:nowrap;">
+        {{acc.surname}}
+      </td>
+      <td style="white-space:nowrap;">
+        {{acc.email}}
+      </td>
+      <td style="white-space:nowrap;">
+        {{acc.job}}
+      </td>
+      <td style="white-space:nowrap;">
+        {{acc.username}}
+      </td>
+      <td style="white-space:nowrap;">
+        {{acc.gender}}
+      </td>
+      <td style="white-space:nowrap;">
+        {{acc.jmbg}}
+      </td>
+      <td>
+        <input type='button' value="Accept" (click)='accept()'>
+      </td>
+      <td>
+        <input type='button' value="Reject" (click)='reject()'>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="7" style="text-align: center">
+        <input type='button' value="Go back" (click)='back()'>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="7" style="text-align: center">
+          <input type='button' value="Logout" (click)='logout()'>
+      </td>
+    </tr>
+  </table>
+</div>

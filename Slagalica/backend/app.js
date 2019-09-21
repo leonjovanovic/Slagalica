@@ -633,4 +633,40 @@ app.post("/mojBroj", (req, res, next) => {
   });
 });
 
+app.get("/requests", (req, res, next) => {
+  mongo.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, (err, client) => {
+    if (err) {
+      console.error(err)
+      res.status(200).json({
+        accounts : null
+      });
+      return
+    }
+    const db = client.db('database');
+    const collection = db.collection('requests');
+    collection.find().toArray((function(err, items) {
+      if(items != null){
+        //console.log(items);
+        res.status(200).json({
+          accounts : items
+        });
+      } else {
+        res.status(200).json({
+          accounts : null
+        });
+        client.close();
+      }
+      if(err){
+        res.status(200).json({
+          accounts : null
+        });
+        client.close();
+      }
+    }));
+  });
+});
+
 module.exports = app;
