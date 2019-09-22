@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AnagramService } from '../anagram.service';
 import { PlayerService } from '../player.service';
-import { timer } from 'rxjs';
+import { timer, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-anagram',
@@ -19,12 +19,16 @@ export class AnagramComponent implements OnInit {
   subscribeTimer:number = 60;
   timeLeft: number=60;
 
+  sub1: Subscription;
+  sub2: Subscription;
+  sub3: Subscription;
+
   constructor(private router:Router, public anagramService:AnagramService, public playerService:PlayerService) {
-    this.playerService.getPlayGameUpdateListener()
+    this.sub1 = this.playerService.getPlayGameUpdateListener()
     .subscribe(({flag, game, id}) => {
       if(flag) {
         this.id = id;
-        this.anagramService.getGetAnagramUpdateListener()
+        this.sub2 = this.anagramService.getGetAnagramUpdateListener()
         .subscribe((anagram: string) => {
           this.anagram = anagram;
         });
@@ -34,7 +38,7 @@ export class AnagramComponent implements OnInit {
     });
     this.playerService.playGame(localStorage.getItem("username"));
 
-    this.anagramService.getResultUpdateListener()
+    this.sub3 = this.anagramService.getResultUpdateListener()
     .subscribe(({flag, points}) => {
       if(flag)this.poruka = "Osvojili ste "+points+" poena!";
       this.flag = flag;
@@ -71,6 +75,12 @@ export class AnagramComponent implements OnInit {
         abc.unsubscribe();
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.sub1.unsubscribe();
+    this.sub2.unsubscribe();
+    this.sub3.unsubscribe();
   }
 
 }

@@ -37,4 +37,8 @@ export class SecretQuestionComponent implements OnInit {
     this.userService.secretAnswer(this.answer);
   }
 
+  ngOnDestroy(): void{
+    this.usersSub.unsubscribe();
+  }
+
 }

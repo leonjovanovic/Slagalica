@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { timer } from 'rxjs';
+import { timer, Subscription } from 'rxjs';
 import { PlayerService } from '../player.service';
 
 @Component({
@@ -43,6 +43,7 @@ export class MojBrojComponent implements OnInit {
   used100: boolean = true;
   flagsArray: boolean[] = [false, false, false, false, false, false];
 
+  sub1: Subscription;
   constructor(private router: Router, public playerService: PlayerService) {
     this.num1Rand();
     this.num2Rand();
@@ -52,7 +53,7 @@ export class MojBrojComponent implements OnInit {
     this.num100Rand();
     this.brojRand();
 
-    this.playerService.getMojBrojUpdateListener()
+    this.sub1 = this.playerService.getMojBrojUpdateListener()
     .subscribe((flag) => {
       if (flag) {this.poruka = "Osvojili ste "+this.points+" poena!"; }
     });
@@ -207,5 +208,9 @@ export class MojBrojComponent implements OnInit {
     this.used4 = this.flagsArray[3];
     this.used10 = this.flagsArray[4];
     this.used100 = this.flagsArray[5];
+  }
+
+  ngOnDestroy(): void{
+    this.sub1.unsubscribe();
   }
 }

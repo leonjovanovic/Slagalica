@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { GeoEval } from './geoEval';
 
 @Injectable({providedIn: 'root'})
 export class GeografijaService {
@@ -13,6 +14,9 @@ export class GeografijaService {
   private biljkaUpdated = new Subject<number>();
   private muzGrupaUpdated = new Subject<number>();
   private insertGeoUpdated = new Subject<boolean>();
+  private reciUpdated = new Subject<GeoEval[]>();
+  private acceptedUpdated = new Subject<boolean>();
+  private rejectedUpdated = new Subject<boolean>();
 
   constructor(private http: HttpClient) {}
 
@@ -114,4 +118,40 @@ export class GeografijaService {
   getInsertGeoUpdateListener(){
     return this.insertGeoUpdated.asObservable();
   }
+
+  getReci(){
+    this.http.get<{ reci: GeoEval[] }>("http://localhost:3000/reci")
+    .subscribe(responseData => {
+      this.reciUpdated.next([...responseData.reci]);
+    });
+  }
+
+  getReciUpdateListener(){
+    return this.reciUpdated.asObservable();
+  }
+
+  accepted(rec: GeoEval){
+    this.http
+    .post<{ flag: boolean }>('http://localhost:3000/acceptedGeoEval', {rec})
+    .subscribe(responseData => {
+      this.acceptedUpdated.next(responseData.flag);
+    });
+  }
+
+  getAcceptedUpdateListener() {
+    return this.acceptedUpdated.asObservable();
+  }
+
+  rejected(rec: GeoEval){
+    this.http
+    .post<{ flag: boolean }>('http://localhost:3000/rejectedGeoEval', {rec})
+    .subscribe(responseData => {
+      this.rejectedUpdated.next(responseData.flag);
+    });
+  }
+
+  getRejectedUpdateListener() {
+    return this.rejectedUpdated.asObservable();
+  }
+
 }

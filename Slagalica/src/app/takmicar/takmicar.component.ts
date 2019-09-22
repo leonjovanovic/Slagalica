@@ -35,4 +35,7 @@ export class TakmicarComponent implements OnInit {
     this.router.navigate(['']);
   }
 
+  ngOnDestroy(): void{
+    this.usersSub.unsubscribe();
+  }
 }

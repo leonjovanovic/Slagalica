@@ -31,4 +31,7 @@ export class NewPassComponent implements OnInit {
     }
   }
 
+  ngOnDestroy(): void{
+    this.usersSub.unsubscribe();
+  }
 }

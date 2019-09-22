@@ -1,3 +1,44 @@
-<p>
-  create-geography works!
-</p>
+<div style='margin-left: auto; margin-right: auto; width: 26em;'>
+  <table>
+    <tr>
+      <td>
+        Pojam:&nbsp;
+      </td>
+      <td>
+        Rec:&nbsp;
+      </td>
+      <td colspan="2" style="text-align: center">
+        Zahtev:&nbsp;
+      </td>
+    </tr>
+    <tr *ngFor="let rec of reci">
+      <td style="white-space:nowrap;">
+        {{rec.pojam}}
+      </td>
+      <td style="white-space:nowrap;">
+        {{rec.rec}}
+      </td>
+      <td>
+        <input type='button' value="Accept" (click)='accept(rec)'>
+      </td>
+      <td>
+        <input type='button' value="Reject" (click)='reject(rec)'>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="4" style="text-align: center">
+        <p style="color: red"><i>{{poruka}}</i></p>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="4" style="text-align: center">
+        <input type='button' value="Go back" (click)='back()'>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="4" style="text-align: center">
+          <input type='button' value="Logout" (click)='logout()'>
+      </td>
+    </tr>
+  </table>
+</div>

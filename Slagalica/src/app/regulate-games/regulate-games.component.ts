@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AnagramService } from '../anagram.service';
 import { Anagram } from '../anagram';
 import { UserService } from '../app.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-regulate-games',
@@ -17,23 +18,27 @@ export class RegulateGamesComponent implements OnInit {
   game: string = '';
   anagram: Anagram = null;
   anagrams: Anagram[] = [];
+
+  sub1: Subscription;
+  sub2: Subscription;
+  sub3: Subscription;
   constructor(private router: Router, public anagramService: AnagramService, public userService: UserService) {
     this.today = new Date();
     if (this.today.getMonth() < 9) { this.todayString = '' + this.today.getFullYear() + '-0' + (this.today.getMonth() + 1) + '-' + this.today.getDate(); }
     else  { this.todayString = '' + this.today.getFullYear() + '-' + (this.today.getMonth() + 1) + '-' + this.today.getDate(); }
 
-    this.anagramService.getAllAnagramsUpdateListener()
+    this.sub1 = this.anagramService.getAllAnagramsUpdateListener()
     .subscribe((anagrams: Anagram[]) => {
       this.anagrams = anagrams;
     });
 
-    this.userService.getinsertGameUpdateListener()
+    this.sub2 = this.userService.getinsertGameUpdateListener()
     .subscribe((flag: boolean) => {
       if(flag) { this.poruka = "Uspesno dodata igra u kalendar.";}
       else { this.poruka = "Neuspesno dodata igra u kalendar.";}
     });
 
-    this.userService.getAlreadyPlayedUpdatedListener()
+    this.sub3 = this.userService.getAlreadyPlayedUpdatedListener()
     .subscribe((flag: number) => {
       if(flag === 2) {
         let id = -1;
@@ -74,4 +79,9 @@ export class RegulateGamesComponent implements OnInit {
     this.router.navigate(['']);
   }
 
+  ngOnDestroy(): void{
+    this.sub1.unsubscribe();
+    this.sub2.unsubscribe();
+    this.sub3.unsubscribe();
+  }
 }

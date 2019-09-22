@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../user';
 import { UserService } from '../app.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-regulate-acc',
@@ -14,14 +15,17 @@ export class RegulateAccComponent implements OnInit {
   toRemoveUser: User;
   poruka: string;
 
+  sub1: Subscription;
+  sub2: Subscription;
+  sub3: Subscription;
   constructor(private router: Router, public userService: UserService ) {
-    this.userService.getRequestsUpdateListener()
+    this.sub1 = this.userService.getRequestsUpdateListener()
     .subscribe((accounts: User[]) => {
       this.accounts = accounts;
     });
     this.userService.getRequests();
 
-    this.userService.getAcceptedUpdateListener()
+    this.sub2 = this.userService.getAcceptedUpdateListener()
     .subscribe((flag: boolean) => {
       if(flag) {
         this.accounts = this.accounts.filter(obj => obj !== this.toRemoveUser);
@@ -29,7 +33,7 @@ export class RegulateAccComponent implements OnInit {
       }
     });
 
-    this.userService.getRejectedUpdateListener()
+    this.sub3 = this.userService.getRejectedUpdateListener()
     .subscribe((flag: boolean) => {
       if(flag) {
         this.accounts = this.accounts.filter(obj => obj !== this.toRemoveUser);
@@ -59,4 +63,10 @@ export class RegulateAccComponent implements OnInit {
     this.router.navigate(['']);
   }
 
+
+  ngOnDestroy(): void{
+    this.sub1.unsubscribe();
+    this.sub2.unsubscribe();
+    this.sub3.unsubscribe();
+  }
 }

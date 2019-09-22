@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Player } from '../player';
 import { Router } from '@angular/router';
 import { GostService } from '../gost.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-gost',
@@ -15,15 +16,17 @@ export class GostComponent implements OnInit {
   num2: number = 0;
   poruka: string;
 
+  sub1: Subscription;
+  sub2: Subscription;
   constructor(private router: Router, public gostService: GostService ) {
-    this.gostService.getPlayer20UpdateListener()
+    this.sub1 = this.gostService.getPlayer20UpdateListener()
     .subscribe((players20: Player[]) => {
       this.sort1(players20);
       this.num1 = this.players20.length;
     });
     this.gostService.getPlayers20();
 
-    this.gostService.getPlayer1UpdateListener()
+    this.sub2 = this.gostService.getPlayer1UpdateListener()
     .subscribe((players1: Player[]) => {
       this.sort2(players1);
       this.num2 = this.players1.length;
@@ -72,5 +75,10 @@ export class GostComponent implements OnInit {
 
   logout() {
     this.router.navigate(['']);
+  }
+
+  ngOnDestroy(): void{
+    this.sub1.unsubscribe();
+    this.sub2.unsubscribe();
   }
 }

@@ -94,4 +94,8 @@ export class SignUpComponent implements OnInit {
     this.userService.signUp(user, this.file); //saljemo user servisu
     //this.usersSub.unsubscribe();
   }
+
+  ngOnDestroy(): void{
+    this.usersSub.unsubscribe();
+  }
 }

@@ -14,8 +14,8 @@ export class CreateAnagramComponent implements OnInit {
   recenica: string;
   poruka: string;
 
-  usersSub:Subscription;
-  constructor(private router:Router, public anagramService:AnagramService) {
+  usersSub: Subscription;
+  constructor(private router: Router, public anagramService: AnagramService) {
     this.usersSub = this.anagramService.getAnagramUpdateListener()//cekamo dok nam ne posalje odgovor
     .subscribe((flag: boolean) => {
       if(flag) this.poruka = "Anagram je uspesno dodat!";
@@ -39,4 +39,7 @@ export class CreateAnagramComponent implements OnInit {
     this.router.navigate(['supervizor']);
   }
 
+  ngOnDestroy(): void{
+    this.usersSub.unsubscribe();
+  }
 }

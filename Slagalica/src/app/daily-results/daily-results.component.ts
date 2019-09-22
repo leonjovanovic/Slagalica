@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Player } from '../player';
 import { GostService } from '../gost.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-daily-results',
@@ -16,8 +17,9 @@ export class DailyResultsComponent implements OnInit {
   num: number = 1;
   poruka: string;
 
+  sub1: Subscription;
   constructor(private router: Router, public gostService: GostService ) {
-    this.gostService.getPlayer10UpdateListener()
+    this.sub1 = this.gostService.getPlayer10UpdateListener()
     .subscribe((players10: Player[]) => {
       this.sort(players10);
       this.findIn10();
@@ -82,4 +84,7 @@ export class DailyResultsComponent implements OnInit {
     this.num = this.num + 1;
   }
 
+  ngOnDestroy(): void{
+    this.sub1.unsubscribe();
+  }
 }

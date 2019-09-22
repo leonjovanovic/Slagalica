@@ -16,8 +16,8 @@ export class ChangePassComponent implements OnInit {
   new_password2: string;
   poruka: string;
 
-  usersSub:Subscription;
-  constructor(private router:Router, public userService:UserService) { }
+  usersSub: Subscription;
+  constructor(private router: Router, public userService: UserService) { }
 
   ngOnInit() {
     this.usersSub = this.userService.getChangePassUpdateListener()//cekamo dok nam ne posalje odgovor
@@ -40,5 +40,9 @@ export class ChangePassComponent implements OnInit {
     {
       this.userService.changePass(this.username, this.old_password, this.new_password1);
     }
+  }
+
+  ngOnDestroy(): void{
+    this.usersSub.unsubscribe();
   }
 }

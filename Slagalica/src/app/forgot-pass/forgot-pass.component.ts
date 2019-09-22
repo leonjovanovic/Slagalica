@@ -32,4 +32,8 @@ export class ForgotPassComponent implements OnInit {
       this.userService.forgotPass(this.username, this.jmbg);
     }
   }
+
+  ngOnDestroy(): void{
+    this.usersSub.unsubscribe();
+  }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { timer } from 'rxjs';
+import { timer, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { GeografijaService } from '../geografija.service';
 
@@ -25,12 +25,22 @@ export class GeografijaComponent implements OnInit {
   poruka: string = '';
   points: number = 0;
   flagEval: boolean = false;
-
+  counter: number = 0;
   broj: number;
   slovo: string;
   flagFinish: boolean;
+
+  sub1: Subscription;
+  sub2: Subscription;
+  sub3: Subscription;
+  sub4: Subscription;
+  sub5: Subscription;
+  sub6: Subscription;
+  sub7: Subscription;
+  sub8: Subscription;
+  sub9: Subscription;
   constructor(private router: Router, public geoService: GeografijaService) {
-    this.geoService.getInsertGeoUpdateListener()
+    this.sub9 = this.geoService.getInsertGeoUpdateListener()
     .subscribe((flag: boolean) => {
       if (flag && this.flagEval){ this.poruka = 'Za sada ste osvojili ' + this.points + ' poena. Neki pojmovi su poslati supervizoru na evaluaciju.'}
       else if (flag && !this.flagEval){ this.poruka = 'Osvojili ste ' + this.points + ' poena.'; }
@@ -47,19 +57,41 @@ export class GeografijaComponent implements OnInit {
     this.oberserableTimer();
   }
 
-  finish(){
+  async finish(){
     this.flagFinish = true;
     const username = localStorage.getItem('username');
-    if (this.drzava.charAt(0).toLowerCase() === this.slovo) { this.geoService.drzava(this.drzava, username); }
-    if (this.grad.charAt(0).toLowerCase() === this.slovo) { this.geoService.grad(this.grad, username); }
-    if (this.planina.charAt(0).toLowerCase() === this.slovo) { this.geoService.planina(this.planina, username); }
-    if (this.reka.charAt(0).toLowerCase() === this.slovo) { this.geoService.reka(this.reka, username); }
-    if (this.jezero.charAt(0).toLowerCase() === this.slovo) { this.geoService.jezero(this.jezero, username); }
-    if (this.zivotinja.charAt(0).toLowerCase() === this.slovo) { this.geoService.zivotinja(this.zivotinja, username); }
-    if (this.biljka.charAt(0).toLowerCase() === this.slovo) { this.geoService.biljka(this.biljka, username); }
-    if (this.muzgrupa.charAt(0).toLowerCase() === this.slovo) { this.geoService.muzGrupa(this.muzgrupa, username); }
+    if (this.sameLetter(this.drzava)) { this.geoService.drzava(this.drzava, username); }
+    else { this.counter++; }
+    if (this.sameLetter(this.grad)) { this.geoService.grad(this.grad, username); }
+    else { this.counter++; }
+    if (this.sameLetter(this.planina)) { this.geoService.planina(this.planina, username); }
+    else { this.counter++; }
+    if (this.sameLetter(this.reka)) { this.geoService.reka(this.reka, username); }
+    else { this.counter++; }
+    if (this.sameLetter(this.jezero)) { this.geoService.jezero(this.jezero, username); }
+    else { this.counter++; }
+    if (this.sameLetter(this.zivotinja)) { this.geoService.zivotinja(this.zivotinja, username); }
+    else { this.counter++; }
+    if (this.sameLetter(this.biljka)) { this.geoService.biljka(this.biljka, username); }
+    else { this.counter++; }
+    if (this.sameLetter(this.muzgrupa)) { this.geoService.muzGrupa(this.muzgrupa, username); }
+    else { this.counter++; }
 
+    while(this.counter !== 8) { await this.delay(500);}
     this.geoService.insertGeo(localStorage.getItem("username"), this.points);
+  }
+
+  sameLetter(rec: string){
+    let flagTemp = false;
+    if (this.slovo === 'dj' || this.slovo === 'nj' || this.slovo === 'lj' || this.slovo === 'dž') { flagTemp = true; }
+    if (flagTemp) {
+      if (rec.charAt(0).toLowerCase() === this.slovo.charAt(0) && rec.charAt(1).toLowerCase() === this.slovo.charAt(1)) { return true; }
+      else { return false; }
+
+    } else {
+      if (rec.charAt(0).toLowerCase() === this.slovo) { return true; }
+      else { return false; }
+    }
   }
 
   back(){
@@ -71,53 +103,61 @@ export class GeografijaComponent implements OnInit {
   }
 
   call8Services(){
-    this.geoService.getDrzavaUpdateListener()
+    this.sub1 = this.geoService.getDrzavaUpdateListener()
     .subscribe((flag: number) => {
       if (flag === 2) { this.points = this.points + 2; }
       else if ( flag === 1) { this.flagEval = true; }
       else { this.poruka = 'Dogodila se greska!'; }
+      this.counter++;
     });
-    this.geoService.getGradUpdateListener()
+    this.sub2 = this.geoService.getGradUpdateListener()
     .subscribe((flag: number) => {
       if (flag === 2) { this.points = this.points + 2; }
       else if ( flag === 1) { this.flagEval = true; }
       else { this.poruka = 'Dogodila se greska!'; }
+      this.counter++;
     });
-    this.geoService.getPlaninaUpdateListener()
+    this.sub3 = this.geoService.getPlaninaUpdateListener()
     .subscribe((flag: number) => {
       if (flag === 2) { this.points = this.points + 2; }
       else if ( flag === 1) { this.flagEval = true; }
       else { this.poruka = 'Dogodila se greska!'; }
+      this.counter++;
     });
-    this.geoService.getRekaUpdateListener()
+    this.sub4 = this.geoService.getRekaUpdateListener()
     .subscribe((flag: number) => {
       if (flag === 2) { this.points = this.points + 2; }
       else if ( flag === 1) { this.flagEval = true; }
       else { this.poruka = 'Dogodila se greska!'; }
+      this.counter++;
     });
-    this.geoService.getJezeroUpdateListener()
+    this.sub5 = this.geoService.getJezeroUpdateListener()
     .subscribe((flag: number) => {
       if (flag === 2) { this.points = this.points + 2; }
       else if ( flag === 1) { this.flagEval = true; }
       else { this.poruka = 'Dogodila se greska!'; }
+      this.counter++;
     });
-    this.geoService.getZivotinjaUpdateListener()
+    this.sub6 = this.geoService.getZivotinjaUpdateListener()
     .subscribe((flag: number) => {
       if (flag === 2) { this.points = this.points + 2; }
       else if ( flag === 1) { this.flagEval = true; }
       else { this.poruka = 'Dogodila se greska!'; }
+      this.counter++;
     });
-    this.geoService.getBiljkaUpdateListener()
+    this.sub7 = this.geoService.getBiljkaUpdateListener()
     .subscribe((flag: number) => {
       if (flag === 2) { this.points = this.points + 2; }
       else if ( flag === 1) { this.flagEval = true; }
       else { this.poruka = 'Dogodila se greska!'; }
+      this.counter++;
     });
-    this.geoService.getMuzGrupaUpdateListener()
+    this.sub8 = this.geoService.getMuzGrupaUpdateListener()
     .subscribe((flag: number) => {
       if (flag === 2) { this.points = this.points + 2; }
       else if ( flag === 1) { this.flagEval = true; }
       else { this.poruka = 'Dogodila se greska!'; }
+      this.counter++;
     });
   }
 
@@ -131,6 +171,22 @@ export class GeografijaComponent implements OnInit {
       }
       if(this.flagFinish){ abc.unsubscribe(); }
     });
+  }
+
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+  }
+
+  ngOnDestroy(): void{
+    this.sub1.unsubscribe();
+    this.sub2.unsubscribe();
+    this.sub3.unsubscribe();
+    this.sub4.unsubscribe();
+    this.sub5.unsubscribe();
+    this.sub6.unsubscribe();
+    this.sub7.unsubscribe();
+    this.sub8.unsubscribe();
+    this.sub9.unsubscribe();
   }
 
 }
