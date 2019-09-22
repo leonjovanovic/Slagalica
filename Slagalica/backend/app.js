@@ -478,7 +478,7 @@ app.post("/playGame", (req, res, next) => {
         res.status(200).json({
           flag : true,
           game : "takmicar",
-          id : -1
+          id : -2
         });
         client.close();
       } else {
@@ -916,6 +916,474 @@ app.post("/alreadyPlayed", (req, res, next) => {
       if(err){
         res.status(200).json({
           flag: 0
+        });
+        client.close();
+      }
+    });
+  });
+});
+
+app.post("/drzava", (req, res, next) => {
+  mongo.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, (err, client) => {
+    if (err) {
+      console.error(err)
+      res.status(200).json({
+        flag : 0
+      });
+      return
+    }
+    const db = client.db('database');
+    const collection = db.collection('geoDatabase');
+    collection.findOne({drzava: req.body.name}, (err, items)=> {//ako je type(drzava) jednak imenu
+      if(items != null){
+        //console.log(items.drzava);
+        res.status(200).json({
+          flag : 2
+        });
+        client.close();
+      } else {
+        //console.log("INSERT");
+        const collection = db.collection('geoEval');
+        collection.insertOne({ username: req.body.username, pojam: "drzava", rec: req.body.name}, (err, result) => {
+          if(result != null){
+            res.status(200).json({
+              flag : 1
+            });
+            client.close();
+          } else {
+            res.status(200).json({
+              flag : 0
+            });
+            client.close();
+          }
+          if(err){
+            res.status(200).json({
+              flag : 0
+            });
+            client.close();
+          }
+        });
+      }
+      if(err){
+        res.status(200).json({
+          flag: 0
+        });
+        client.close();
+      }
+    });
+  });
+});
+
+app.post("/grad", (req, res, next) => {
+  mongo.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, (err, client) => {
+    if (err) {
+      console.error(err)
+      res.status(200).json({
+        flag : 0
+      });
+      return
+    }
+    const db = client.db('database');
+    const collection = db.collection('geoDatabase');
+    collection.findOne({grad: req.body.name}, (err, items)=> {//ako je type(drzava) jednak imenu
+      if(items != null){
+        //console.log(items.drzava);
+        res.status(200).json({
+          flag : 2
+        });
+        client.close();
+      } else {
+        //console.log("INSERT");
+        const collection = db.collection('geoEval');
+        collection.insertOne({ username: req.body.username, pojam: "grad", rec: req.body.name}, (err, result) => {
+          if(result != null){
+            res.status(200).json({
+              flag : 1
+            });
+            client.close();
+          } else {
+            res.status(200).json({
+              flag : 0
+            });
+            client.close();
+          }
+          if(err){
+            res.status(200).json({
+              flag : 0
+            });
+            client.close();
+          }
+        });
+      }
+      if(err){
+        res.status(200).json({
+          flag: 0
+        });
+        client.close();
+      }
+    });
+  });
+});
+
+app.post("/planina", (req, res, next) => {
+  mongo.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, (err, client) => {
+    if (err) {
+      console.error(err)
+      res.status(200).json({
+        flag : 0
+      });
+      return
+    }
+    const db = client.db('database');
+    const collection = db.collection('geoDatabase');
+    collection.findOne({planina: req.body.name}, (err, items)=> {//ako je type(drzava) jednak imenu
+      if(items != null){
+        //console.log(items.drzava);
+        res.status(200).json({
+          flag : 2
+        });
+        client.close();
+      } else {
+        //console.log("INSERT");
+        const collection = db.collection('geoEval');
+        collection.insertOne({ username: req.body.username, pojam: "planina", rec: req.body.name}, (err, result) => {
+          if(result != null){
+            res.status(200).json({
+              flag : 1
+            });
+            client.close();
+          } else {
+            res.status(200).json({
+              flag : 0
+            });
+            client.close();
+          }
+          if(err){
+            res.status(200).json({
+              flag : 0
+            });
+            client.close();
+          }
+        });
+      }
+      if(err){
+        res.status(200).json({
+          flag: 0
+        });
+        client.close();
+      }
+    });
+  });
+});
+
+app.post("/reka", (req, res, next) => {
+  mongo.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, (err, client) => {
+    if (err) {
+      console.error(err)
+      res.status(200).json({
+        flag : 0
+      });
+      return
+    }
+    const db = client.db('database');
+    const collection = db.collection('geoDatabase');
+    collection.findOne({reka: req.body.name}, (err, items)=> {//ako je type(drzava) jednak imenu
+      if(items != null){
+        //console.log(items.drzava);
+        res.status(200).json({
+          flag : 2
+        });
+        client.close();
+      } else {
+        //console.log("INSERT");
+        const collection = db.collection('geoEval');
+        collection.insertOne({ username: req.body.username, pojam: "reka", rec: req.body.name}, (err, result) => {
+          if(result != null){
+            res.status(200).json({
+              flag : 1
+            });
+            client.close();
+          } else {
+            res.status(200).json({
+              flag : 0
+            });
+            client.close();
+          }
+          if(err){
+            res.status(200).json({
+              flag : 0
+            });
+            client.close();
+          }
+        });
+      }
+      if(err){
+        res.status(200).json({
+          flag: 0
+        });
+        client.close();
+      }
+    });
+  });
+});
+
+app.post("/jezero", (req, res, next) => {
+  mongo.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, (err, client) => {
+    if (err) {
+      console.error(err)
+      res.status(200).json({
+        flag : 0
+      });
+      return
+    }
+    const db = client.db('database');
+    const collection = db.collection('geoDatabase');
+    collection.findOne({jezero: req.body.name}, (err, items)=> {//ako je type(drzava) jednak imenu
+      if(items != null){
+        //console.log(items.drzava);
+        res.status(200).json({
+          flag : 2
+        });
+        client.close();
+      } else {
+        //console.log("INSERT");
+        const collection = db.collection('geoEval');
+        collection.insertOne({ username: req.body.username, pojam: "jezero", rec: req.body.name}, (err, result) => {
+          if(result != null){
+            res.status(200).json({
+              flag : 1
+            });
+            client.close();
+          } else {
+            res.status(200).json({
+              flag : 0
+            });
+            client.close();
+          }
+          if(err){
+            res.status(200).json({
+              flag : 0
+            });
+            client.close();
+          }
+        });
+      }
+      if(err){
+        res.status(200).json({
+          flag: 0
+        });
+        client.close();
+      }
+    });
+  });
+});
+
+app.post("/zivotinja", (req, res, next) => {
+  mongo.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, (err, client) => {
+    if (err) {
+      console.error(err)
+      res.status(200).json({
+        flag : 0
+      });
+      return
+    }
+    const db = client.db('database');
+    const collection = db.collection('geoDatabase');
+    collection.findOne({zivotinja: req.body.name}, (err, items)=> {//ako je type(drzava) jednak imenu
+      if(items != null){
+        //console.log(items.drzava);
+        res.status(200).json({
+          flag : 2
+        });
+        client.close();
+      } else {
+        //console.log("INSERT");
+        const collection = db.collection('geoEval');
+        collection.insertOne({ username: req.body.username, pojam: "zivotinja", rec: req.body.name}, (err, result) => {
+          if(result != null){
+            res.status(200).json({
+              flag : 1
+            });
+            client.close();
+          } else {
+            res.status(200).json({
+              flag : 0
+            });
+            client.close();
+          }
+          if(err){
+            res.status(200).json({
+              flag : 0
+            });
+            client.close();
+          }
+        });
+      }
+      if(err){
+        res.status(200).json({
+          flag: 0
+        });
+        client.close();
+      }
+    });
+  });
+});
+
+app.post("/biljka", (req, res, next) => {
+  mongo.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, (err, client) => {
+    if (err) {
+      console.error(err)
+      res.status(200).json({
+        flag : 0
+      });
+      return
+    }
+    const db = client.db('database');
+    const collection = db.collection('geoDatabase');
+    collection.findOne({biljka: req.body.name}, (err, items)=> {//ako je type(drzava) jednak imenu
+      if(items != null){
+        //console.log(items.drzava);
+        res.status(200).json({
+          flag : 2
+        });
+        client.close();
+      } else {
+        //console.log("INSERT");
+        const collection = db.collection('geoEval');
+        collection.insertOne({ username: req.body.username, pojam: "biljka", rec: req.body.name}, (err, result) => {
+          if(result != null){
+            res.status(200).json({
+              flag : 1
+            });
+            client.close();
+          } else {
+            res.status(200).json({
+              flag : 0
+            });
+            client.close();
+          }
+          if(err){
+            res.status(200).json({
+              flag : 0
+            });
+            client.close();
+          }
+        });
+      }
+      if(err){
+        res.status(200).json({
+          flag: 0
+        });
+        client.close();
+      }
+    });
+  });
+});
+
+app.post("/muzGrupa", (req, res, next) => {
+  mongo.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, (err, client) => {
+    if (err) {
+      console.error(err)
+      res.status(200).json({
+        flag : 0
+      });
+      return
+    }
+    const db = client.db('database');
+    const collection = db.collection('geoDatabase');
+    collection.findOne({muzGrupa: req.body.name}, (err, items)=> {//ako je type(drzava) jednak imenu
+      if(items != null){
+        //console.log(items.drzava);
+        res.status(200).json({
+          flag : 2
+        });
+        client.close();
+      } else {
+        //console.log("INSERT");
+        const collection = db.collection('geoEval');
+        collection.insertOne({ username: req.body.username, pojam: "muzGrupa", rec: req.body.name}, (err, result) => {
+          if(result != null){
+            res.status(200).json({
+              flag : 1
+            });
+            client.close();
+          } else {
+            res.status(200).json({
+              flag : 0
+            });
+            client.close();
+          }
+          if(err){
+            res.status(200).json({
+              flag : 0
+            });
+            client.close();
+          }
+        });
+      }
+      if(err){
+        res.status(200).json({
+          flag: 0
+        });
+        client.close();
+      }
+    });
+  });
+});
+
+app.post("/insertGeo", (req, res, next) => {
+  mongo.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, (err, client) => {
+    if (err) {
+      console.error(err)
+      res.status(200).json({
+        flag: false
+      });
+      return
+    }
+    const db = client.db('database');
+    const collection = db.collection('games');
+    collection.insertOne({ username: req.body.username, points: req.body.points, datum: new Date() }, (err, item) => {
+      if(item != null){
+        res.status(200).json({
+          flag : true
+        });
+        client.close();
+      } else {
+        res.status(200).json({
+          flag : false
+        });
+        client.close();
+      }
+      if(err){
+        res.status(200).json({
+          flag : false
         });
         client.close();
       }

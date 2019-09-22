@@ -16,7 +16,7 @@ export class AnagramComponent implements OnInit {
   id: number;
   flag: boolean;
   flagFinish: boolean;
-  subscribeTimer:number;
+  subscribeTimer:number = 60;
   timeLeft: number=60;
 
   constructor(private router:Router, public anagramService:AnagramService, public playerService:PlayerService) {
