@@ -106,7 +106,7 @@ app.post("/signUp", multer({ storage: storage }).single("image"), (req, res, nex
         let flag = false;
         if(MIME_TYPE_MAP[req.file.mimetype]) flag = true;
         collection.insertOne({ name: req.body.name, surname: req.body.surname, email: req.body.email, job: req.body.job, username: req.body.username, password: md5(req.body.password), gender: req.body.gender, jmbg: req.body.jmbg, question: req.body.question, answer: req.body.answer , type : req.body.type ,imagePath: (flag)? (url + "/images/" + req.file.filename):"None" }, (err, result) => {
-          console.log(req.body);
+          //console.log(req.body);
           res.status(200).json({
             flag : true
           });
@@ -580,7 +580,7 @@ app.post("/resultAnagram", (req, res, next) => {
         }
         collection2.insertOne({ username: req.body.username, points: points, datum: new Date() }, (err, result) => {
           if(result != null){
-            //console.log(result);
+            //console.log("INSERTUJEM");
             res.status(200).json({
               flag : true,
               points: points

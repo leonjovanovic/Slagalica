@@ -55,7 +55,7 @@ export class AnagramComponent implements OnInit {
     this.flagFinish = true;
     const username = localStorage.getItem("username");
     this.anagramService.result(this.id, this.answer, username);
-    this.answer= "";
+    this.answer = "";
   }
 
   back(){
@@ -70,8 +70,10 @@ export class AnagramComponent implements OnInit {
     const source = timer(1000, 1001);
     const abc = source.subscribe(val => {
       this.subscribeTimer = this.timeLeft - val;
-      if(this.subscribeTimer == 0 || this.flagFinish){
+      if(this.subscribeTimer == 0){
         this.finish();
+      }
+      if(this.flagFinish){
         abc.unsubscribe();
       }
     });
